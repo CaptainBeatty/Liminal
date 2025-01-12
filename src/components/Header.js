@@ -16,7 +16,7 @@ const Header = ({
 
   return (
     <header className="header">
-      <h1 className="title" onClick={() => navigate('/')}>MernMulterApp</h1>
+      <h1 className="title" onClick={() => navigate('/')}>Liminal</h1>
       <div className="rightSection">
         {username && (
           <span className="welcomeMessage">Bienvenue {username}</span>

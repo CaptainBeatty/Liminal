@@ -70,6 +70,7 @@ const PhotoForm = ({ onPhotoAdded, onClose }) => {
         width: '90%',
         maxWidth: '400px',
         zIndex: 1000,
+        fontStyle: 'italic',
       }}
     >
       <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Ajouter une photo</h2>
@@ -139,6 +140,7 @@ const PhotoForm = ({ onPhotoAdded, onClose }) => {
               ...styles.button,
               backgroundColor: '#28a745',
               marginRight: '10px',
+              fontStyle: 'italic',
             }}
           >
             Ajouter
@@ -149,6 +151,7 @@ const PhotoForm = ({ onPhotoAdded, onClose }) => {
             style={{
               ...styles.button,
               backgroundColor: '#dc3545',
+              fontStyle: 'italic',
             }}
           >
             Annuler

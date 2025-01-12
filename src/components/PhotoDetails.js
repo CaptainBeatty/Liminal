@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import { useParams, useNavigate } from 'react-router-dom';
 import axiosInstance from '../services/axiosInstance';
 import dayjs from 'dayjs';
@@ -96,10 +96,10 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted }) => {
         <img src={photo.imageUrl} alt={photo.title} style={{ width: '100%', borderRadius: '10px' }} />
 
         <div style={{ marginTop: '15px' }}>
-          <p><strong>Auteur :</strong> {photo.authorName || 'Utilisateur inconnu'}</p>
-          <p><strong>Type d'appareil :</strong> {photo.cameraType || 'Non spécifié'}</p>
-          <p><strong>Lieu :</strong> {photo.location || 'Non spécifié'}</p> {/* Affichage du lieu */}
-          <p><strong>Date :</strong> {photo.date || 'Non spécifiée'}</p>
+          <p style={{ fontStyle: 'italic' }}><strong>Auteur :</strong> {photo.authorName || 'Utilisateur inconnu'}</p>
+          <p style={{ fontStyle: 'italic' }}><strong>Type d'appareil :</strong> {photo.cameraType || 'Non spécifié'}</p>
+          <p style={{ fontStyle: 'italic' }}><strong>Lieu :</strong> {photo.location || 'Non spécifié'}</p> {/* Affichage du lieu */}
+          <p style={{ fontStyle: 'italic' }}><strong>Date :</strong> {photo.date || 'Non spécifiée'}</p>
         </div>
 
         {currentUserId === photo.userId && (
@@ -111,27 +111,27 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted }) => {
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="Nouveau titre"
-                  style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }}
+                  style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', fontStyle: 'italic' }}
                 />
                 <input
                   type="text"
                   value={newCameraType}
                   onChange={(e) => setNewCameraType(e.target.value)}
                   placeholder="Type d'appareil photo"
-                  style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }}
+                  style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', fontStyle: 'italic' }}
                 />
                 <input
                   type="text"
                   value={newLocation}
                   onChange={(e) => setNewLocation(e.target.value)} // Modification du lieu
                   placeholder="Lieu"
-                  style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }}
+                  style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', fontStyle: 'italic' }}
                 />
                 <input
                   type="date"
                   value={newDate}
                   onChange={(e) => setNewDate(e.target.value)}
-                  style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }}
+                  style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', fontStyle: 'italic' }}
                 />
                 <button
                   onClick={handleUpdate}
@@ -143,6 +143,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted }) => {
                     marginRight: '10px',
                     cursor: 'pointer',
                     borderRadius: '5px',
+                    fontStyle: 'italic',
                   }}
                 >
                   Enregistrer
@@ -156,6 +157,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted }) => {
                     padding: '10px 20px',
                     cursor: 'pointer',
                     borderRadius: '5px',
+                    fontStyle: 'italic',
                   }}
                 >
                   Annuler
@@ -166,13 +168,14 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted }) => {
                 <button
                   onClick={() => setIsEditing(true)}
                   style={{
-                    backgroundColor: '#007bff',
-                    color: 'white',
-                    border: 'none',
+                    backgroundColor: 'white',
+                    color: 'black',
+                    border: '1px solid',
                     padding: '10px 20px',
                     marginRight: '10px',
                     cursor: 'pointer',
                     borderRadius: '5px',
+                    fontStyle: 'italic',
                   }}
                 >
                   Modifier
@@ -180,12 +183,13 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted }) => {
                 <button
                   onClick={handleDelete}
                   style={{
-                    backgroundColor: '#dc3545',
+                    backgroundColor: 'gray',
                     color: 'white',
                     border: 'none',
                     padding: '10px 20px',
                     cursor: 'pointer',
                     borderRadius: '5px',
+                    fontStyle: 'italic',
                   }}
                 >
                   Supprimer
