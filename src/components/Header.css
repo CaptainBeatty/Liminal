@@ -40,16 +40,16 @@
   }
   
   .button.photoFormOpen {
-    background-color: #dc3545;
+    background-color: grey;
     color: white;
-    border: 1px solid #dc3545;
+    border: 1px solid grey;
   }
   
   .button.loginOpen,
   .button.registerOpen {
-    background-color: #dc3545;
-    color: white;
-    border: 1px solid #dc3545;
+    background-color: grey;
+    color: black;
+    border: 1px solid grey;
   }
   
   @media (max-width: 425px) {
