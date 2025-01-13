@@ -22,7 +22,7 @@ const App = () => {
   // Charger les photos depuis le backend
   const fetchPhotos = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/photos');
+      const res = await axios.get('https://liminal-backend-2ztc.onrender.com/api/photos');
       setPhotos(res.data);
     } catch (err) {
       console.error('Erreur lors de la récupération des photos:', err);
