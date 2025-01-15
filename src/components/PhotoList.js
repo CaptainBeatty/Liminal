@@ -1,31 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Loader from './Loader'; // Assurez-vous que le Loader est importé
 
 const PhotoList = ({ photos }) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulez un délai de chargement pour tester l'effet de fondu
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000); // Temps de chargement simulé (1 seconde)
+
+    return () => clearTimeout(timer); // Nettoie le timer pour éviter les fuites de mémoire
+  }, []);
+
   return (
-    <div style={styles.gridContainer}>
-      {photos.map((photo) => (
-        <div key={photo._id} style={styles.card}>
-          {/* Lien vers les détails de la photo */}
-          <Link to={`/photo/${photo._id}`} style={styles.link}>
-            <img
-              src={photo.imageUrl}
-              alt={photo.title}
-              style={styles.image}
-            />
-            <h3 style={styles.title}>{photo.title}</h3>
-          </Link>
-        </div>
-      ))}
-    </div>
+    <>
+      {/* Affichage du Loader avec l'effet de fondu */}
+      <Loader isVisible={isLoading} />
+
+      <div style={{ ...styles.gridContainer, display: isLoading ? 'none' : 'grid' }}>
+        {photos.map((photo) => (
+          <div key={photo._id} style={styles.card}>
+            {/* Lien vers les détails de la photo */}
+            <Link to={`/photo/${photo._id}`} style={styles.link}>
+              <img
+                src={photo.imageUrl}
+                alt={photo.title}
+                style={styles.image}
+              />
+              <h3 style={styles.title}>{photo.title}</h3>
+            </Link>
+          </div>
+        ))}
+      </div>
+    </>
   );
 };
 
 const styles = {
   gridContainer: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', // Colonnes adaptatives
-    gap: '20px', // Espacement entre les cartes
+    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+    gap: '20px',
     padding: '20px',
   },
   card: {
@@ -40,7 +56,7 @@ const styles = {
   image: {
     width: '100%',
     height: '200px',
-    objectFit: 'cover', // Garantit un format uniforme pour les images
+    objectFit: 'cover',
   },
   title: {
     padding: '10px',

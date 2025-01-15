@@ -1,0 +1,13 @@
+.chevron-icon {
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  /* Masquer le chevron sur les écrans inférieurs à 425px */
+  @media (max-width: 425px) {
+    .chevron-icon {
+      display: none;
+    }
+  }
+  

@@ -1,19 +1,23 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from '../services/axiosInstance';
 import dayjs from 'dayjs';
+import Loader from './Loader'; // Importation du Loader
+import './PhotoDetails.css'; // Importation du fichier CSS
 
 const PhotoDetails = ({ currentUserId, onPhotoDeleted }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [photo, setPhoto] = useState(null);
+  const [isLoading, setIsLoading] = useState(true); // Gestion du chargement
   const [isEditing, setIsEditing] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [newCameraType, setNewCameraType] = useState('');
-  const [newLocation, setNewLocation] = useState(''); // Nouveau champ pour le lieu
+  const [newLocation, setNewLocation] = useState('');
   const [newDate, setNewDate] = useState('');
 
-  // Charger les détails de la photo
   useEffect(() => {
     const fetchPhoto = async () => {
       try {
@@ -21,26 +25,25 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted }) => {
         const photoData = res.data;
 
         setPhoto(photoData);
-
-        // Pré-remplir les champs pour l'édition
         setNewTitle(photoData.title);
         setNewCameraType(photoData.cameraType || '');
-        setNewLocation(photoData.location || ''); // Pré-remplir le lieu
+        setNewLocation(photoData.location || '');
         setNewDate(
           photoData.date
-            ? dayjs(photoData.date, 'D MMMM YYYY').format('YYYY-MM-DD') // Convertir pour le champ de type date
+            ? dayjs(photoData.date, 'D MMMM YYYY').format('YYYY-MM-DD')
             : ''
         );
       } catch (err) {
         console.error('Erreur lors de la récupération de la photo:', err);
         alert('Erreur lors du chargement de la photo. Veuillez réessayer.');
+      } finally {
+        setIsLoading(false); // Chargement terminé
       }
     };
 
     fetchPhoto();
   }, [id]);
 
-  // Gérer la mise à jour de la photo
   const handleUpdate = async () => {
     try {
       if (!dayjs(newDate, 'YYYY-MM-DD', true).isValid()) {
@@ -51,25 +54,22 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted }) => {
       const formData = new FormData();
       formData.append('title', newTitle || photo.title);
       formData.append('cameraType', newCameraType || photo.cameraType);
-      formData.append('location', newLocation || photo.location); // Ajouter le lieu
+      formData.append('location', newLocation || photo.location);
       formData.append('date', dayjs(newDate, 'YYYY-MM-DD').format('D MMMM YYYY'));
 
       await axiosInstance.put(`/photos/${id}`, formData);
-
       alert('Photo mise à jour avec succès.');
 
-      // Re-fetch les données pour mettre à jour l'état
       const updatedPhoto = await axiosInstance.get(`/photos/${id}`);
       setPhoto(updatedPhoto.data);
 
-      setIsEditing(false); // Quitter le mode édition
+      setIsEditing(false);
     } catch (err) {
       console.error('Erreur lors de la modification de la photo:', err);
       alert('Erreur lors de la modification de la photo. Veuillez réessayer.');
     }
   };
 
-  // Gérer la suppression de la photo
   const handleDelete = async () => {
     try {
       await axiosInstance.delete(`/photos/${id}`);
@@ -86,120 +86,63 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted }) => {
     }
   };
 
-  if (!photo) return <p>Chargement...</p>;
-
   return (
-    <div style={{ margin: '20px auto', textAlign: 'center', maxWidth: '600px' }}>
-      <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>{photo.title}</h1>
+    <>
+      {/* Affichage du Loader */}
+      <Loader isVisible={isLoading} />
 
-      <div style={{ marginTop: '15px', fontSize: '16px', fontWeight: 'bold' }}>
-        <img src={photo.imageUrl} alt={photo.title} style={{ width: '100%', borderRadius: '10px' }} />
-
-        <div style={{ marginTop: '15px' }}>
-          <p style={{ fontStyle: 'italic' }}><strong>Auteur :</strong> {photo.authorName || 'Utilisateur inconnu'}</p>
-          <p style={{ fontStyle: 'italic' }}><strong>Type d'appareil :</strong> {photo.cameraType || 'Non spécifié'}</p>
-          <p style={{ fontStyle: 'italic' }}><strong>Lieu :</strong> {photo.location || 'Non spécifié'}</p> {/* Affichage du lieu */}
-          <p style={{ fontStyle: 'italic' }}><strong>Date :</strong> {photo.date || 'Non spécifiée'}</p>
+      {/* Contenu principal masqué tant que le chargement est actif */}
+      <div
+        style={{
+          margin: '20px auto',
+          textAlign: 'center',
+          maxWidth: '600px',
+          display: isLoading ? 'none' : 'block',
+        }}
+      >
+        {/* Icône de retour */}
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+          <FontAwesomeIcon
+            icon={faChevronLeft}
+            onClick={() => navigate(-1)}
+            style={{ fontSize: '24px', cursor: 'pointer', marginRight: '10px' }}
+            className="chevron-icon" // Classe pour styliser et cacher le chevron
+            title="Retour"
+          />
+          <h1 style={{ textAlign: 'center', margin: 0, flex: 1 }}>{photo?.title}</h1>
         </div>
 
-        {currentUserId === photo.userId && (
-          <div style={{ marginTop: '20px' }}>
-            {isEditing ? (
-              <div>
-                <input
-                  type="text"
-                  value={newTitle}
-                  onChange={(e) => setNewTitle(e.target.value)}
-                  placeholder="Nouveau titre"
-                  style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', fontStyle: 'italic' }}
-                />
-                <input
-                  type="text"
-                  value={newCameraType}
-                  onChange={(e) => setNewCameraType(e.target.value)}
-                  placeholder="Type d'appareil photo"
-                  style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', fontStyle: 'italic' }}
-                />
-                <input
-                  type="text"
-                  value={newLocation}
-                  onChange={(e) => setNewLocation(e.target.value)} // Modification du lieu
-                  placeholder="Lieu"
-                  style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', fontStyle: 'italic' }}
-                />
-                <input
-                  type="date"
-                  value={newDate}
-                  onChange={(e) => setNewDate(e.target.value)}
-                  style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', fontStyle: 'italic' }}
-                />
-                <button
-                  onClick={handleUpdate}
-                  style={{
-                    backgroundColor: '#28a745',
-                    color: 'white',
-                    border: 'none',
-                    padding: '10px 20px',
-                    marginRight: '10px',
-                    cursor: 'pointer',
-                    borderRadius: '5px',
-                    fontStyle: 'italic',
-                  }}
-                >
-                  Enregistrer
-                </button>
-                <button
-                  onClick={() => setIsEditing(false)}
-                  style={{
-                    backgroundColor: '#dc3545',
-                    color: 'white',
-                    border: 'none',
-                    padding: '10px 20px',
-                    cursor: 'pointer',
-                    borderRadius: '5px',
-                    fontStyle: 'italic',
-                  }}
-                >
-                  Annuler
-                </button>
-              </div>
-            ) : (
-              <div>
-                <button
-                  onClick={() => setIsEditing(true)}
-                  style={{
-                    backgroundColor: 'white',
-                    color: 'black',
-                    border: '1px solid',
-                    padding: '10px 20px',
-                    marginRight: '10px',
-                    cursor: 'pointer',
-                    borderRadius: '5px',
-                    fontStyle: 'italic',
-                  }}
-                >
-                  Modifier
-                </button>
-                <button
-                  onClick={handleDelete}
-                  style={{
-                    backgroundColor: 'gray',
-                    color: 'white',
-                    border: 'none',
-                    padding: '10px 20px',
-                    cursor: 'pointer',
-                    borderRadius: '5px',
-                    fontStyle: 'italic',
-                  }}
-                >
-                  Supprimer
-                </button>
-              </div>
-            )}
+        <div style={{ marginTop: '15px', fontSize: '16px', fontWeight: 'bold' }}>
+          <img src={photo?.imageUrl} alt={photo?.title} style={{ width: '100%', borderRadius: '10px' }} />
+          <div style={{ marginTop: '15px' }}>
+            <p><strong>Auteur :</strong> {photo?.authorName || 'Utilisateur inconnu'}</p>
+            <p><strong>Type d'appareil :</strong> {photo?.cameraType || 'Non spécifié'}</p>
+            <p><strong>Lieu :</strong> {photo?.location || 'Non spécifié'}</p>
+            <p><strong>Date :</strong> {photo?.date || 'Non spécifiée'}</p>
           </div>
-        )}
+
+          {currentUserId === photo?.userId && (
+            <div style={{ marginTop: '20px' }}>
+              {isEditing ? (
+                <div>
+                  <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} placeholder="Nouveau titre" style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }} />
+                  <input type="text" value={newCameraType} onChange={(e) => setNewCameraType(e.target.value)} placeholder="Type d'appareil photo" style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }} />
+                  <input type="text" value={newLocation} onChange={(e) => setNewLocation(e.target.value)} placeholder="Lieu" style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }} />
+                  <input type="date" value={newDate} onChange={(e) => setNewDate(e.target.value)} style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }} />
+                  <button onClick={handleUpdate} style={{ backgroundColor: '#28a745', color: 'white', border: 'none', padding: '10px 20px', marginRight: '10px', cursor: 'pointer', borderRadius: '5px' }}>Enregistrer</button>
+                  <button onClick={() => setIsEditing(false)} style={{ backgroundColor: '#dc3545', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', borderRadius: '5px' }}>Annuler</button>
+                </div>
+              ) : (
+                <div>
+                  <button onClick={() => setIsEditing(true)} style={{ backgroundColor: '#007bff', color: 'white', border: 'none', padding: '10px 20px', marginRight: '10px', cursor: 'pointer', borderRadius: '5px' }}>Modifier</button>
+                  <button onClick={handleDelete} style={{ backgroundColor: '#dc3545', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', borderRadius: '5px' }}>Supprimer</button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
