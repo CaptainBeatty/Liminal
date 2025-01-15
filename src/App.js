@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import axios from 'axios';
 import PhotoForm from './components/PhotoForm';
 import PhotoList from './components/PhotoList';
 import PhotoDetails from './components/PhotoDetails';
@@ -10,6 +9,7 @@ import Header from './components/Header';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import PrivateRoute from './services/PrivateRoute';
+import axiosInstance from './services/axiosInstance';
 import { jwtDecode } from 'jwt-decode';
 
 const App = () => {
@@ -22,7 +22,7 @@ const App = () => {
   // Charger les photos depuis le backend
   const fetchPhotos = async () => {
     try {
-      const res = await axios.get('https://liminal-backend-2ztc.onrender.com/api/photos');
+      const res = await axiosInstance.get('/photos');
       setPhotos(res.data);
     } catch (err) {
       console.error('Erreur lors de la récupération des photos:', err);
