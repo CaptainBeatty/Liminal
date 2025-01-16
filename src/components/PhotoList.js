@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Loader from './Loader'; // Assurez-vous que le Loader est importé
+import './PhotoList.css';
+
 
 const PhotoList = ({ photos }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -15,13 +17,17 @@ const PhotoList = ({ photos }) => {
   }, []);
 
   return (
-    <>
+    <div className="photo-list">
       {/* Affichage du Loader avec l'effet de fondu */}
       <Loader isVisible={isLoading} />
 
       <div style={{ ...styles.gridContainer, display: isLoading ? 'none' : 'grid' }}>
         {photos.map((photo) => (
-          <div key={photo._id} style={styles.card}>
+          <div 
+            key={photo._id} 
+            style={styles.card}
+            className="image-container"
+          >
             {/* Lien vers les détails de la photo */}
             <Link to={`/photo/${photo._id}`} style={styles.link}>
               <img
@@ -34,7 +40,7 @@ const PhotoList = ({ photos }) => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 
