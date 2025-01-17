@@ -7,6 +7,7 @@
     background-color: black;
     color: white;
     font-style: italic;
+    border-bottom: solid grey;
   }
   
   .title {
@@ -16,13 +17,13 @@
      font-weight: light; /* Gras pour un titre bien visible */
      color: white; /* Couleur principale */
      text-align: center; /* Centrage du titre */
-     transition: transform 0.3s ease-in-out; /* Transition fluide */
+     transition: transform 0.2s linear; /* Transition fluide */
      cursor: pointer; /* Ajout d'un curseur "pointer" pour montrer qu'il est interactif */
 
     }
     
     .title:hover {
-      transform: scale(1.1); /* Grossit légèrement le texte au survol */
+      transform: scale(1.05); /* Grossit légèrement le texte au survol */
       color: white; /* Change la couleur du texte pour donner un retour visuel */
     }
     

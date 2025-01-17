@@ -109,16 +109,15 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted }) => {
             className="chevron-icon" // Classe pour styliser et cacher le chevron
             title="Retour"
           />
-          <h1 style={{ textAlign: 'center', margin: 0, flex: 1 }}>{photo?.title}</h1>
+          <h1 style={{ textAlign: 'center', margin: 0, flex: 1, fontSize: '25px', fontStyle: 'italic'}}>{photo?.title}</h1>
         </div>
 
         <div style={{ marginTop: '15px', fontSize: '16px', fontWeight: 'bold' }}>
           <img src={photo?.imageUrl} alt={photo?.title} style={{ width: '100%', borderRadius: '10px' }} />
-          <div style={{ marginTop: '15px' }}>
-            <p><strong>Auteur :</strong> {photo?.authorName || 'Utilisateur inconnu'}</p>
-            <p><strong>Type d'appareil :</strong> {photo?.cameraType || 'Non spécifié'}</p>
-            <p><strong>Lieu :</strong> {photo?.location || 'Non spécifié'}</p>
-            <p><strong>Date :</strong> {photo?.date || 'Non spécifiée'}</p>
+          <div style={{ marginTop: '10px', fontSize: '14px', fontStyle: 'italic', textAlign: 'center' }}>
+            <p>
+              {`Taken in ${photo?.location || 'Lieu non spécifié'} on ${photo?.date ? dayjs(photo.date, 'D MMMM YYYY').format('MMMM DD, YYYY') : 'Date non spécifiée'} by ${photo?.authorName || 'Auteur inconnu'} with ${photo?.cameraType || 'Non spécifié'}`}
+            </p>
           </div>
 
           {currentUserId === photo?.userId && (
