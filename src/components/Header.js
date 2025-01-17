@@ -19,7 +19,7 @@ const Header = ({
       <h1 className="title" onClick={() => navigate('/')}>Liminal</h1>
       <div className="rightSection">
         {username && (
-          <span className="welcomeMessage">Bienvenue {username}</span>
+          <span className="welcomeMessage">Hello {username}</span>
         )}
         {username ? (
           <>
@@ -27,10 +27,10 @@ const Header = ({
               className={`button ${isPhotoFormOpen ? 'photoFormOpen' : ''}`}
               onClick={onTogglePhotoForm}
             >
-              {isPhotoFormOpen ? 'Fermer' : 'Poster'}
+              {isPhotoFormOpen ? 'Close' : 'Post'}
             </button>
             <button className="button" onClick={onLogout}>
-              Déconnexion
+              Logout
             </button>
           </>
         ) : (
@@ -39,13 +39,13 @@ const Header = ({
               className={`button ${isLoginOpen ? 'loginOpen' : ''}`}
               onClick={onShowLogin}
             >
-              {isLoginOpen ? 'Fermer' : 'Login'}
+              {isLoginOpen ? 'Close' : 'Login'}
             </button>
             <button
               className={`button ${isRegisterOpen ? 'registerOpen' : ''}`}
               onClick={onShowRegister}
             >
-              {isRegisterOpen ? 'Fermer' : 'Register'}
+              {isRegisterOpen ? 'Close' : 'Register'}
             </button>
           </>
         )}

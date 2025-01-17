@@ -1,4 +1,4 @@
-  import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../services/axiosInstance'; // Utilisation de axiosInstance
 import dayjs from 'dayjs';
@@ -73,15 +73,14 @@ const PhotoForm = ({ onPhotoAdded, onClose }) => {
         fontStyle: 'italic',
       }}
     >
-      <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Ajouter une photo</h2>
+      <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Add a liminal</h2>
       {errorMessage && <p style={{ color: 'red', marginBottom: '10px' }}>{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="title" style={styles.label}>Titre :</label>
           <input
             type="text"
             id="title"
-            placeholder="Titre"
+            placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             style={styles.input}
@@ -89,7 +88,6 @@ const PhotoForm = ({ onPhotoAdded, onClose }) => {
           />
         </div>
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="image" style={styles.label}>Image :</label>
           <input
             type="file"
             id="image"
@@ -100,22 +98,20 @@ const PhotoForm = ({ onPhotoAdded, onClose }) => {
           />
         </div>
         <div style={{ marginBottom: '10px' }}>
-          <label htmlFor="cameraType" style={styles.label}>Type d'appareil photo :</label>
           <input
             type="text"
             id="cameraType"
-            placeholder="Type d'appareil photo"
+            placeholder="Camera/System"
             value={cameraType}
             onChange={(e) => setCameraType(e.target.value)}
             style={styles.input}
           />
         </div>
         <div style={{ marginBottom: '20px' }}>
-          <label htmlFor="location" style={styles.label}>Lieu :</label>
           <input
             type="text"
             id="location"
-            placeholder="Lieu de la prise de vue"
+            placeholder="Place"
             value={location}
             onChange={(e) => setLocation(e.target.value)} // Modification du lieu
             style={styles.input}
@@ -123,7 +119,6 @@ const PhotoForm = ({ onPhotoAdded, onClose }) => {
           />
         </div>
         <div style={{ marginBottom: '20px' }}>
-          <label htmlFor="date" style={styles.label}>Date de prise de vue :</label>
           <input
             type="date"
             id="date"
@@ -143,7 +138,7 @@ const PhotoForm = ({ onPhotoAdded, onClose }) => {
               fontStyle: 'italic',
             }}
           >
-            Ajouter
+            Add
           </button>
           <button
             type="button"
@@ -154,7 +149,7 @@ const PhotoForm = ({ onPhotoAdded, onClose }) => {
               fontStyle: 'italic',
             }}
           >
-            Annuler
+            Cancel
           </button>
         </div>
       </form>
@@ -163,11 +158,7 @@ const PhotoForm = ({ onPhotoAdded, onClose }) => {
 };
 
 const styles = {
-  label: {
-    display: 'block',
-    fontWeight: 'bold',
-    marginBottom: '5px',
-  },
+  
   input: {
     width: '100%',
     padding: '8px',

@@ -124,17 +124,17 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted }) => {
             <div style={{ marginTop: '20px' }}>
               {isEditing ? (
                 <div>
-                  <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} placeholder="Nouveau titre" style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }} />
-                  <input type="text" value={newCameraType} onChange={(e) => setNewCameraType(e.target.value)} placeholder="Type d'appareil photo" style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }} />
-                  <input type="text" value={newLocation} onChange={(e) => setNewLocation(e.target.value)} placeholder="Lieu" style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }} />
+                  <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} placeholder="New title" style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }} />
+                  <input type="text" value={newCameraType} onChange={(e) => setNewCameraType(e.target.value)} placeholder="System" style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }} />
+                  <input type="text" value={newLocation} onChange={(e) => setNewLocation(e.target.value)} placeholder="Place" style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }} />
                   <input type="date" value={newDate} onChange={(e) => setNewDate(e.target.value)} style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }} />
                   <button onClick={handleUpdate} style={{ backgroundColor: '#28a745', color: 'white', border: 'none', padding: '10px 20px', marginRight: '10px', cursor: 'pointer', borderRadius: '5px' }}>Enregistrer</button>
                   <button onClick={() => setIsEditing(false)} style={{ backgroundColor: '#dc3545', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', borderRadius: '5px' }}>Annuler</button>
                 </div>
               ) : (
                 <div>
-                  <button onClick={() => setIsEditing(true)} style={{ backgroundColor: '#007bff', color: 'white', border: 'none', padding: '10px 20px', marginRight: '10px', cursor: 'pointer', borderRadius: '5px' }}>Modifier</button>
-                  <button onClick={handleDelete} style={{ backgroundColor: '#dc3545', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', borderRadius: '5px' }}>Supprimer</button>
+                  <button onClick={() => setIsEditing(true)} style={{ backgroundColor: '#007bff', color: 'white', border: 'none', padding: '10px 20px', marginRight: '10px', cursor: 'pointer', borderRadius: '5px' }}>Modify</button>
+                  <button onClick={handleDelete} style={{ backgroundColor: '#dc3545', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', borderRadius: '5px' }}>Delete</button>
                 </div>
               )}
             </div>
