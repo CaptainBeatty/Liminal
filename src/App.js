@@ -24,7 +24,7 @@ const App = () => {
 
   // Initialisation de Google Tag Manager
   useEffect(() => {
-    initGA("GTM-TDDWR5TV");
+    initGA("G-PNZ4P73F9W");
   }, []);
 
   // Charger les photos depuis le backend
