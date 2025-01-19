@@ -158,7 +158,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
           display: isLoading ? 'none' : 'block',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '25px' }}>
           <FontAwesomeIcon
             icon={faChevronLeft}
             onClick={() => navigate(-1)}
@@ -218,6 +218,11 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
           </div>
 
             {currentUserId === photo?.userId && (
+          <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              width: '65px',
+            }}>
               <>
                 <FontAwesomeIcon
                   icon={isModifying ? faSliders: faSliders}
@@ -242,6 +247,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
                   onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                 />
               </>
+          </div>
             )}
           </div>
 
