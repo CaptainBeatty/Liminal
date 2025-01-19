@@ -195,7 +195,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
                 icon={liked ? faThumbsUpSolid : faThumbsUpRegular}
                 style={{ fontSize: '24px', color: liked ? 'black' : '#000' }}
               />
-              <span style={{ marginLeft: '8px' }}>{likes}</span>
+              <span style={{ marginLeft: '1px' }}>{likes}</span>
             </button>
             <button
               onClick={handleDislike}
@@ -212,7 +212,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
                 icon={disliked ? faThumbsDownSolid : faThumbsDownRegular}
                 style={{ fontSize: '24px', color: disliked ? 'black' : '#000' }}
               />
-              <span style={{ marginLeft: '8px' }}>{dislikes}</span>
+              <span style={{ marginLeft: '1px' }}>{dislikes}</span>
             </button>
 
             {currentUserId === photo?.userId && (
