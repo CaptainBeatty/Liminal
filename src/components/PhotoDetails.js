@@ -6,8 +6,10 @@ import axiosInstance from '../services/axiosInstance';
 import dayjs from 'dayjs';
 import Loader from './Loader'; // Importation du Loader
 import './PhotoDetails.css'; // Importation du fichier CSS
+import { faThumbsUp as faThumbsUpRegular, faThumbsDown as faThumbsDownRegular } from '@fortawesome/free-regular-svg-icons';
+import { faThumbsUp as faThumbsUpSolid, faThumbsDown as faThumbsDownSolid } from '@fortawesome/free-solid-svg-icons';
 
-const PhotoDetails = ({ currentUserId, onPhotoDeleted }) => {
+const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, isLoginOpen }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [photo, setPhoto] = useState(null);
@@ -17,6 +19,10 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted }) => {
   const [newCameraType, setNewCameraType] = useState('');
   const [newLocation, setNewLocation] = useState('');
   const [newDate, setNewDate] = useState('');
+  const [likes, setLikes] = useState(0);
+  const [dislikes, setDislikes] = useState(0);
+  const [liked, setLiked] = useState(false);
+  const [disliked, setDisliked] = useState(false);
 
   useEffect(() => {
     const fetchPhoto = async () => {
@@ -28,11 +34,16 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted }) => {
         setNewTitle(photoData.title);
         setNewCameraType(photoData.cameraType || '');
         setNewLocation(photoData.location || '');
+        setLikes(photoData.likes || 0);
+        setDislikes(photoData.dislikes || 0);
+        setLiked(photoData.likedBy?.includes(currentUserId));
+        setDisliked(photoData.dislikedBy?.includes(currentUserId));
         setNewDate(
           photoData.date
             ? dayjs(photoData.date, 'D MMMM YYYY').format('YYYY-MM-DD')
             : ''
         );
+       
       } catch (err) {
         console.error('Erreur lors de la récupération de la photo:', err);
         alert('Erreur lors du chargement de la photo. Veuillez réessayer.');
@@ -42,7 +53,41 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted }) => {
     };
 
     fetchPhoto();
-  }, [id]);
+  }, [id, currentUserId]);
+
+  const handleLike = async () => {
+    if (!currentUserId) {
+      onShowLogin(); // Ouvre le formulaire Login et modifie le bouton
+      return;
+    }
+    try {
+      const response = await axiosInstance.post(`/photos/${id}/like`);
+      setLikes(response.data.likes);
+    setDislikes(response.data.dislikes);
+    setLiked(!liked);
+      setDisliked(false);
+    } catch (err) {
+      console.error('Erreur lors du like:', err);
+      alert('Erreur lors de l\'ajout du like. Veuillez réessayer.');
+    }
+  };
+
+  const handleDislike = async () => {
+    if (!currentUserId) {
+      onShowLogin(); // Ouvre le formulaire Login et modifie le bouton
+      return;
+    }
+    try {
+      const response = await axiosInstance.post(`/photos/${id}/dislike`);
+      setLikes(response.data.likes);
+    setDislikes(response.data.dislikes);
+    setDisliked(!disliked);
+      setLiked(false);
+    } catch (err) {
+      console.error('Erreur lors du dislike:', err);
+      alert('Erreur lors de l\'ajout du dislike. Veuillez réessayer.');
+    }
+  };
 
   const handleUpdate = async () => {
     try {
@@ -94,7 +139,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted }) => {
       {/* Contenu principal masqué tant que le chargement est actif */}
       <div
         style={{
-          margin: '20px auto',
+          margin: '10px auto',
           textAlign: 'center',
           maxWidth: '600px',
           display: isLoading ? 'none' : 'block',
@@ -116,8 +161,45 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted }) => {
           <img src={photo?.imageUrl} alt={photo?.title} style={{ width: '100%', borderRadius: '10px' }} />
           <div style={{ marginTop: '10px', fontSize: '14px', fontStyle: 'italic', textAlign: 'center' }}>
             <p>
-              {`Taken in ${photo?.location || 'Lieu non spécifié'} on ${photo?.date ? dayjs(photo.date, 'D MMMM YYYY').format('MMMM DD, YYYY') : 'Date non spécifiée'} by ${photo?.authorName || 'Auteur inconnu'} with ${photo?.cameraType || 'Non spécifié'}`}
+              {`${photo?.location || 'Lieu non spécifié'} on ${photo?.date ? dayjs(photo.date, 'D MMMM YYYY').format('MMMM DD, YYYY') : 'an unknown date'} by ${photo?.authorName || 'Auteur inconnu'} with ${photo?.cameraType || 'Non spécifié'}`}
             </p>
+          </div>
+
+          <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', gap: '15px' }}>
+            <button
+              onClick={handleLike}
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'transform 0.2s ease',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            >
+              <FontAwesomeIcon
+                icon={liked ? faThumbsUpSolid : faThumbsUpRegular}
+                style={{ fontSize: '24px', color: liked ? 'black' : '#000' }}
+              />
+              <span style={{ marginLeft: '8px' }}>{likes}</span>
+            </button>
+            <button
+              onClick={handleDislike}
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'transform 0.2s ease',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            >
+              <FontAwesomeIcon
+                icon={disliked ? faThumbsDownSolid : faThumbsDownRegular}
+                style={{ fontSize: '24px', color: disliked ? 'black' : '#000' }}
+              />
+              <span style={{ marginLeft: '8px' }}>{dislikes}</span>
+            </button>
           </div>
 
           {currentUserId === photo?.userId && (
