@@ -180,6 +180,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
           </div>
 
           <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', gap: '15px' }}>
+          <div>
             <button
               onClick={handleLike}
               style={{
@@ -214,6 +215,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
               />
               <span style={{ marginLeft: '1px' }}>{dislikes}</span>
             </button>
+          </div>
 
             {currentUserId === photo?.userId && (
               <>
@@ -223,7 +225,6 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
                     fontSize: '24px',
                     cursor: 'pointer',
                     transition: 'transform 0.2s ease',
-                    marginRight: '15px',
                   }}
                   onClick={handleModifyClick}
                   onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
