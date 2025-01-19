@@ -223,6 +223,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
                     fontSize: '24px',
                     cursor: 'pointer',
                     transition: 'transform 0.2s ease',
+                    marginRight: '15px',
                   }}
                   onClick={handleModifyClick}
                   onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
