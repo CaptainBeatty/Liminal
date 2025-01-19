@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import axiosInstance from '../services/axiosInstance';
-import dayjs from 'dayjs';
-import Loader from './Loader'; // Importation du Loader
-import './PhotoDetails.css'; // Importation du fichier CSS
+import { faChevronLeft, faSliders, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp as faThumbsUpRegular, faThumbsDown as faThumbsDownRegular } from '@fortawesome/free-regular-svg-icons';
 import { faThumbsUp as faThumbsUpSolid, faThumbsDown as faThumbsDownSolid } from '@fortawesome/free-solid-svg-icons';
+import axiosInstance from '../services/axiosInstance';
+import dayjs from 'dayjs';
+import Loader from './Loader';
+import './PhotoDetails.css';
 
-const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, isLoginOpen }) => {
+const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [photo, setPhoto] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Gestion du chargement
+  const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
+  const [isModifying, setIsModifying] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [newCameraType, setNewCameraType] = useState('');
   const [newLocation, setNewLocation] = useState('');
@@ -23,6 +24,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, isLoginOpen 
   const [dislikes, setDislikes] = useState(0);
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
 
   useEffect(() => {
     const fetchPhoto = async () => {
@@ -43,12 +45,11 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, isLoginOpen 
             ? dayjs(photoData.date, 'D MMMM YYYY').format('YYYY-MM-DD')
             : ''
         );
-       
       } catch (err) {
         console.error('Erreur lors de la récupération de la photo:', err);
         alert('Erreur lors du chargement de la photo. Veuillez réessayer.');
       } finally {
-        setIsLoading(false); // Chargement terminé
+        setIsLoading(false);
       }
     };
 
@@ -57,35 +58,35 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, isLoginOpen 
 
   const handleLike = async () => {
     if (!currentUserId) {
-      onShowLogin(); // Ouvre le formulaire Login et modifie le bouton
+      onShowLogin();
       return;
     }
     try {
       const response = await axiosInstance.post(`/photos/${id}/like`);
       setLikes(response.data.likes);
-    setDislikes(response.data.dislikes);
-    setLiked(!liked);
+      setDislikes(response.data.dislikes);
+      setLiked(!liked);
       setDisliked(false);
     } catch (err) {
       console.error('Erreur lors du like:', err);
-      alert('Erreur lors de l\'ajout du like. Veuillez réessayer.');
+      alert("Erreur lors de l'ajout du like. Veuillez réessayer.");
     }
   };
 
   const handleDislike = async () => {
     if (!currentUserId) {
-      onShowLogin(); // Ouvre le formulaire Login et modifie le bouton
+      onShowLogin();
       return;
     }
     try {
       const response = await axiosInstance.post(`/photos/${id}/dislike`);
       setLikes(response.data.likes);
-    setDislikes(response.data.dislikes);
-    setDisliked(!disliked);
+      setDislikes(response.data.dislikes);
+      setDisliked(!disliked);
       setLiked(false);
     } catch (err) {
       console.error('Erreur lors du dislike:', err);
-      alert('Erreur lors de l\'ajout du dislike. Veuillez réessayer.');
+      alert("Erreur lors de l'ajout du dislike. Veuillez réessayer.");
     }
   };
 
@@ -131,12 +132,24 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, isLoginOpen 
     }
   };
 
+  const handleModifyClick = () => {
+    setIsModifying(true);
+    setIsEditing((prevIsEditing) => !prevIsEditing);
+    setShowDeleteConfirmation(false);
+    if (!isEditing) {
+      setTimeout(() => setIsModifying(false), 500);
+    }
+  };
+
+  const handleDeleteIconClick = () => {
+    setShowDeleteConfirmation((prevShowDeleteConfirmation) => !prevShowDeleteConfirmation);
+    setIsEditing(false) 
+  };
+
   return (
     <>
-      {/* Affichage du Loader */}
       <Loader isVisible={isLoading} />
 
-      {/* Contenu principal masqué tant que le chargement est actif */}
       <div
         style={{
           margin: '10px auto',
@@ -145,20 +158,21 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, isLoginOpen 
           display: isLoading ? 'none' : 'block',
         }}
       >
-        {/* Icône de retour */}
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
           <FontAwesomeIcon
             icon={faChevronLeft}
             onClick={() => navigate(-1)}
             style={{ fontSize: '24px', cursor: 'pointer', marginRight: '10px' }}
-            className="chevron-icon" // Classe pour styliser et cacher le chevron
+            className="chevron-icon"
             title="Retour"
           />
-          <h1 style={{ textAlign: 'center', margin: 0, flex: 1, fontSize: '25px', fontStyle: 'italic'}}>{photo?.title}</h1>
+          <h1 style={{ textAlign: 'center', margin: 0, flex: 1, fontSize: '25px', fontStyle: 'italic' }}>
+            {photo?.title}
+          </h1>
         </div>
 
         <div style={{ marginTop: '15px', fontSize: '16px', fontWeight: 'bold' }}>
-          <img src={photo?.imageUrl} alt={photo?.title} style={{ width: '100%', borderRadius: '10px' }} />
+          <img src={photo?.imageUrl} alt={photo?.title} style={{ width: '100%', borderRadius: '10px', border: 'solid grey', boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)' }} />
           <div style={{ marginTop: '10px', fontSize: '14px', fontStyle: 'italic', textAlign: 'center' }}>
             <p>
               {`${photo?.location || 'Lieu non spécifié'} on ${photo?.date ? dayjs(photo.date, 'D MMMM YYYY').format('MMMM DD, YYYY') : 'an unknown date'} by ${photo?.authorName || 'Auteur inconnu'} with ${photo?.cameraType || 'Non spécifié'}`}
@@ -200,25 +214,127 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, isLoginOpen 
               />
               <span style={{ marginLeft: '8px' }}>{dislikes}</span>
             </button>
+
+            {currentUserId === photo?.userId && (
+              <>
+                <FontAwesomeIcon
+                  icon={isModifying ? faSliders: faSliders}
+                  style={{
+                    fontSize: '24px',
+                    cursor: 'pointer',
+                    transition: 'transform 0.2s ease',
+                  }}
+                  onClick={handleModifyClick}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                />
+                <FontAwesomeIcon
+                  icon={faTrash}
+                  style={{
+                    fontSize: '24px',
+                    cursor: 'pointer',
+                    transition: 'transform 0.2s ease',
+                  }}
+                  onClick={handleDeleteIconClick}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                />
+              </>
+            )}
           </div>
 
-          {currentUserId === photo?.userId && (
-            <div style={{ marginTop: '20px' }}>
-              {isEditing ? (
-                <div>
-                  <input type="text" value={newTitle} onChange={(e) => setNewTitle(e.target.value)} placeholder="New title" style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }} />
-                  <input type="text" value={newCameraType} onChange={(e) => setNewCameraType(e.target.value)} placeholder="System" style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }} />
-                  <input type="text" value={newLocation} onChange={(e) => setNewLocation(e.target.value)} placeholder="Place" style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }} />
-                  <input type="date" value={newDate} onChange={(e) => setNewDate(e.target.value)} style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%' }} />
-                  <button onClick={handleUpdate} style={{ backgroundColor: '#28a745', color: 'white', border: 'none', padding: '10px 20px', marginRight: '10px', cursor: 'pointer', borderRadius: '5px' }}>Enregistrer</button>
-                  <button onClick={() => setIsEditing(false)} style={{ backgroundColor: '#dc3545', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', borderRadius: '5px' }}>Annuler</button>
-                </div>
-              ) : (
-                <div>
-                  <button onClick={() => setIsEditing(true)} style={{ backgroundColor: '#007bff', color: 'white', border: 'none', padding: '10px 20px', marginRight: '10px', cursor: 'pointer', borderRadius: '5px' }}>Modify</button>
-                  <button onClick={handleDelete} style={{ backgroundColor: '#dc3545', color: 'white', border: 'none', padding: '10px 20px', cursor: 'pointer', borderRadius: '5px' }}>Delete</button>
-                </div>
-              )}
+          {showDeleteConfirmation && (
+            <div className="delete-confirmation" style={{ marginTop: '10px', marginBottom: '10px',textAlign: 'center' }}>
+              <p style={{ fontStyle: 'italic', color: 'red' }}>Are you sure?</p>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
+                <button
+                  onClick={handleDelete}
+                  style={{
+                    backgroundColor: '#dc3545',
+                    color: 'white',
+                    border: 'none',
+                    padding: '8px 20px',
+                    cursor: 'pointer',
+                    borderRadius: '5px',
+                    fontStyle: 'italic',
+                  }}
+                >
+                  Yes
+                </button>
+                <button
+                  onClick={handleDeleteIconClick}
+                  style={{
+                    backgroundColor: '#6c757d',
+                    color: 'white',
+                    border: 'none',
+                    padding: '8px 20px',
+                    cursor: 'pointer',
+                    borderRadius: '5px',
+                    fontStyle: 'italic',
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+
+          {isEditing && (
+            <div>
+              <input
+                type="text"
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+                placeholder="New title"
+                style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', borderRadius:'5px', }}
+              />
+              <input
+                type="text"
+                value={newCameraType}
+                onChange={(e) => setNewCameraType(e.target.value)}
+                placeholder="System"
+                style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', borderRadius:'5px', }}
+              />
+              <input
+                type="text"
+                value={newLocation}
+                onChange={(e) => setNewLocation(e.target.value)}
+                placeholder="Place"
+                style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', borderRadius:'5px', }}
+              />
+              <input
+                type="date"
+                value={newDate}
+                onChange={(e) => setNewDate(e.target.value)}
+                style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', borderRadius:'5px', }}
+              />
+              <button
+                onClick={handleUpdate}
+                style={{
+                  backgroundColor: '#28a745',
+                  color: 'white',
+                  border: 'none',
+                  padding: '10px 20px',
+                  marginRight: '10px',
+                  cursor: 'pointer',
+                  borderRadius: '5px',
+                }}
+              >
+                Enregistrer
+              </button>
+              <button
+                onClick={() => setIsEditing(false)}
+                style={{
+                  backgroundColor: '#dc3545',
+                  color: 'white',
+                  border: 'none',
+                  padding: '10px 20px',
+                  cursor: 'pointer',
+                  borderRadius: '5px',
+                }}
+              >
+                Annuler
+              </button>
             </div>
           )}
         </div>
