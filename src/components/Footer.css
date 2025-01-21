@@ -10,6 +10,8 @@
     position: relative; /* Pour s'assurer qu'il reste en bas */
     z-index: 10; /* Assure que le footer reste au-dessus d'autres éléments */
     border-top: solid grey;
+    width: 100%;
+
 }
 
 /* Conteneur des liens */

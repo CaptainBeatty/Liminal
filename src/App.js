@@ -15,6 +15,7 @@ import AboutAndLiminal from "./pages/AboutAndLiminal"; // Import de la page fusi
 import { jwtDecode } from "jwt-decode";
 import { initGA } from "./utils/analytics"; // Import des fonctions Analytics
 import usePageTracking from "./hooks/usePageTracking";
+import "./App.css"
 
 
 const App = () => {
@@ -97,6 +98,7 @@ const App = () => {
   return (
     <Router>
       <PageTracker />
+      <div className="app-container">
       <Header
         username={username}
         onLogout={handleLogout}
@@ -128,7 +130,7 @@ const App = () => {
             <Register onClose={() => setActiveModal(null)} />
           </div>
         )}
-
+        <div className="content">
         {/* Routes */}
         <Routes>
           {/* Routes publiques */}
@@ -192,8 +194,10 @@ const App = () => {
             }
           />
         </Routes>
+        </div>
       </div>
       <Footer /> 
+      </div>
     </Router>
   );
 };

@@ -1,38 +1,30 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* S'assurer que le HTML et le BODY occupent toute la hauteur */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/* Conteneur principal de l'application */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Assure que l'application occupe toute la hauteur */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Section de contenu principale */
+.content {
+  flex: 1; /* Permet au contenu de s'étendre pour occuper l'espace disponible */
+  padding: 20px; /* Ajoute un peu d'espace autour du contenu */
+}
+
+/* Footer */
+footer {
+  background-color: #222;
+  color: #fff;
+  text-align: center;
+  padding: 20px;
+  margin-top: auto; /* Force le footer à se positionner en bas */
 }
