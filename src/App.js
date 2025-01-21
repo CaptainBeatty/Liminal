@@ -10,6 +10,8 @@ import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
 import PrivateRoute from "./services/PrivateRoute";
 import axiosInstance from "./services/axiosInstance";
+import Footer from "./components/Footer"; 
+import AboutAndLiminal from "./pages/AboutAndLiminal"; // Import de la page fusionnée
 import { jwtDecode } from "jwt-decode";
 import { initGA } from "./utils/analytics"; // Import des fonctions Analytics
 import usePageTracking from "./hooks/usePageTracking";
@@ -144,7 +146,9 @@ const App = () => {
                   photos={photos}
                   onPhotoDeleted={fetchPhotos}
                   currentUserId={currentUserId}
+                  
                 />
+
               </div>
             }
           />
@@ -155,7 +159,7 @@ const App = () => {
               <ResetPassword onShowLogin={() => setActiveModal("login")} />
             }
           />
-
+          <Route path="/about-liminal" element={<AboutAndLiminal />} /> {/* Route pour la page fusionnée */}
           {/* Routes protégées avec PrivateRoute */}
           <Route
             path="/photo/:id"
@@ -189,6 +193,7 @@ const App = () => {
           />
         </Routes>
       </div>
+      <Footer /> 
     </Router>
   );
 };

@@ -1,0 +1,50 @@
+/* Conteneur principal */
+.about-liminal-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto; /* Centrage horizontal */
+    font-family: Arial, sans-serif;
+    color: #333; /* Couleur de texte par défaut */
+    line-height: 1.6;
+}
+
+/* Titres des sections */
+.section-title {
+    font-size: 2rem;
+    color: #222; /* Couleur sombre pour le titre */
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Contenu des sections */
+.section-content {
+    font-size: 1rem;
+    text-align: justify; /* Alignement justifié pour une meilleure lisibilité */
+    margin-bottom: 30px;
+}
+
+/* Espacement entre les sections */
+.about-section,
+.liminal-section {
+    margin-bottom: 40px;
+    padding: 20px;
+    background: #f9f9f9; /* Fond léger pour distinguer les sections */
+    border: 1px solid #ddd; /* Bordure douce autour des sections */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ombre douce */
+}
+
+/* Responsiveness */
+@media (max-width: 600px) {
+    .about-liminal-container {
+        padding: 10px;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .section-content {
+        font-size: 0.95rem;
+    }
+}

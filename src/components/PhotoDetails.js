@@ -180,7 +180,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
           </div>
 
           <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', gap: '15px' }}>
-          <div>
+          <div >
             <button
               onClick={handleLike}
               style={{

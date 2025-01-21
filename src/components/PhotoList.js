@@ -68,6 +68,7 @@ const styles = {
     padding: '10px',
     margin: 0,
     fontSize: '16px',
+    fontStyle: 'italic',
     color: '#333',
   },
   link: {

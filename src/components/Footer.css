@@ -1,0 +1,57 @@
+/* Style global pour le footer */
+.footer {
+    background-color: black; /* Couleur de fond sombre */
+    color: #fff; /* Texte blanc */
+    text-align: center;
+    padding: 20px;
+    margin-top: auto; /* Permet de coller le footer en bas */
+    font-size: 0.9rem;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Légère ombre au-dessus */
+    position: relative; /* Pour s'assurer qu'il reste en bas */
+    z-index: 10; /* Assure que le footer reste au-dessus d'autres éléments */
+    border-top: solid grey;
+}
+
+/* Conteneur des liens */
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Espacement entre les boutons */
+    flex-wrap: wrap; /* Les boutons passent à la ligne si l'espace est limité */
+    margin-top: 10px; /* Espacement avec le texte principal du footer */
+}
+
+/* Boutons du footer */
+.footer-button {
+    color: #61dafb; /* Couleur des liens */
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 10px 15px;
+    border: 2px solid #61dafb; /* Bordure des boutons */
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out; /* Animation fluide */
+    display: inline-block;
+    font-weight: bold; /* Met le texte en gras pour plus de lisibilité */
+}
+
+.footer-button:hover {
+    background-color: #61dafb; /* Fond bleu clair au survol */
+    color: #222; /* Texte sombre au survol */
+}
+
+/* Ajustement de la section footer en cas de petite largeur */
+@media (max-width: 600px) {
+    .footer {
+        font-size: 0.8rem; /* Taille de police plus petite sur mobiles */
+        padding: 15px;
+    }
+
+    .footer-links {
+        gap: 10px; /* Réduction de l'espacement entre les boutons */
+    }
+
+    .footer-button {
+        font-size: 0.9rem; /* Ajustement de la taille des boutons */
+        padding: 8px 12px;
+    }
+}
