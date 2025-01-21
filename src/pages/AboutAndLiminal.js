@@ -11,7 +11,7 @@ const AboutAndLiminal = () => {
                 </p>
             </section>
             <section className="liminal-section">
-                <h1 className="section-title">Qu'est-ce qu'une image liminale ?</h1>
+                <h1 className="section-title">What is a liminal image?</h1>
                 <p className="section-content">
                 A liminal image represents a transitory space, often familiar, but devoid of any human
                 presence. These places, whether empty corridors, deserted shopping malls
