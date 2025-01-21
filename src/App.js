@@ -109,7 +109,7 @@ const App = () => {
         isLoginOpen={activeModal === "login"}
         isRegisterOpen={activeModal === "register"}
       />
-      <div style={{ padding: "20px" }}>
+      <div className="content" style={{ padding: "20px" }}>
         {/* Modales */}
         {activeModal === "login" && (
           <div style={{ position: "relative", zIndex: 100 }}>
@@ -130,7 +130,7 @@ const App = () => {
             <Register onClose={() => setActiveModal(null)} />
           </div>
         )}
-        <div className="content">
+        
         {/* Routes */}
         <Routes>
           {/* Routes publiques */}
@@ -197,7 +197,6 @@ const App = () => {
         </div>
       </div>
       <Footer /> 
-      </div>
     </Router>
   );
 };
