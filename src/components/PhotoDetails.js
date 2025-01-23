@@ -7,10 +7,15 @@ import { faThumbsUp as faThumbsUpSolid, faThumbsDown as faThumbsDownSolid } from
 import axiosInstance from '../services/axiosInstance';
 import dayjs from 'dayjs';
 import Loader from './Loader';
+import CommentSection from './CommentSection'; // Chemin à ajuster selon votre structure de fichiers
+
 import './PhotoDetails.css';
 
 const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) => {
   const { id } = useParams();
+  const { id: photoId } = useParams(); // Récupère l'ID depuis l'URL
+
+  console.log(photoId); // Vérifiez la valeur ici
   const navigate = useNavigate();
   const [photo, setPhoto] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -25,6 +30,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [showComments, setShowComments] = useState(false);
 
   useEffect(() => {
     const fetchPhoto = async () => {
@@ -145,6 +151,10 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
     setShowDeleteConfirmation((prevShowDeleteConfirmation) => !prevShowDeleteConfirmation);
     setIsEditing(false) 
   };
+  const handleToggleComments = () => {
+    setShowComments((prev) => !prev);
+  };
+  
 
   return (
     <>
@@ -346,7 +356,13 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
             </div>
           )}
         </div>
+        <button onClick={handleToggleComments}>
+      {showComments ? 'Cacher les commentaires' : 'Afficher les commentaires'}
+    </button>
+
+    {showComments && <CommentSection photoId={photoId} />}
       </div>
+      
     </>
   );
 };
