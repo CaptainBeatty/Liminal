@@ -360,7 +360,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
       {showComments ? 'Cacher les commentaires' : 'Afficher les commentaires'}
     </button>
 
-    {showComments && <CommentSection photoId={photoId} />}
+    {showComments && <CommentSection photoId={photoId} currentUserId={currentUserId}/>}
       </div>
       
     </>
