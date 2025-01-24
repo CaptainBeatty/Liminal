@@ -6,8 +6,8 @@ const CommentSection = ({ photoId, currentUserId }) => {
   const [newComment, setNewComment] = useState('');
   const [editingComment, setEditingComment] = useState(null);
   const [error, setError] = useState(null);
-
-  const token = localStorage.getItem('token');
+  const isLoggedIn = !!localStorage.getItem('token'); // Vérifie si un token existe
+  const token = localStorage.getItem('token'); // Récupère le token de localStorage
 
   useEffect(() => {
     if (!photoId) {
@@ -33,11 +33,6 @@ const CommentSection = ({ photoId, currentUserId }) => {
 
   const handleAddComment = (e) => {
     e.preventDefault();
-
-    if (!photoId) {
-      setError('photoId est requis pour ajouter un commentaire.');
-      return;
-    }
 
     if (!newComment.trim()) {
       setError('Le commentaire ne peut pas être vide.');
@@ -127,11 +122,6 @@ const CommentSection = ({ photoId, currentUserId }) => {
                 onChange={(e) =>
                   setEditingComment({ id: comment._id, content: e.target.value })
                 }
-                onKeyDown={(e) => {
-                  if (e.key === ' ') {
-                    e.stopPropagation(); // Empêche la propagation de l'événement "Espace"
-                  }
-                }}
                 style={{ width: '100%', marginBottom: '10px' }}
               />
               <button
@@ -158,16 +148,20 @@ const CommentSection = ({ photoId, currentUserId }) => {
           )}
         </div>
       ))}
-      <form onSubmit={handleAddComment}>
-        <textarea
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-          placeholder="Ajouter un commentaire..."
-          rows="4"
-          style={{ width: '100%', marginBottom: '10px' }}
-        />
-        <button type="submit">Envoyer</button>
-      </form>
+      {isLoggedIn ? (
+        <form onSubmit={handleAddComment}>
+          <textarea
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder="Ajouter un commentaire..."
+            rows="4"
+            style={{ width: '100%', marginBottom: '10px' }}
+          />
+          <button type="submit">Envoyer</button>
+        </form>
+      ) : (
+        <p>Connectez-vous pour laisser un commentaire.</p>
+      )}
     </div>
   );
 };
