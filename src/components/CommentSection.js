@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import axiosInstance from '../services/axiosInstance';
 
 const CommentSection = ({ photoId, currentUserId }) => {
   const [comments, setComments] = useState([]);
@@ -20,8 +21,8 @@ const CommentSection = ({ photoId, currentUserId }) => {
       return;
     }
 
-    axios
-      .get(`http://localhost:5000/api/comments/${photoId}`, {
+    axiosInstance
+      .get(`/comments/${photoId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -44,9 +45,9 @@ const CommentSection = ({ photoId, currentUserId }) => {
       return;
     }
 
-    axios
+    axiosInstance
       .post(
-        'http://localhost:5000/api/comments',
+        '/comments',
         { photoId, content: newComment },
         {
           headers: {
@@ -71,9 +72,9 @@ const CommentSection = ({ photoId, currentUserId }) => {
       return;
     }
 
-    axios
+    axiosInstance
       .put(
-        `http://localhost:5000/api/comments/${commentId}`,
+        `/comments/${commentId}`,
         { content: updatedContent },
         {
           headers: {
@@ -93,8 +94,8 @@ const CommentSection = ({ photoId, currentUserId }) => {
   };
 
   const handleDeleteComment = (commentId) => {
-    axios
-      .delete(`http://localhost:5000/api/comments/${commentId}`, {
+    axiosInstance
+      .delete(`/comments/${commentId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
