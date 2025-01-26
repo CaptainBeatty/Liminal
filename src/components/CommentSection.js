@@ -133,10 +133,10 @@ const CommentSection = ({ photoId, currentUserId }) => {
   }, []);
 
   return (
-    <div style={{ padding: '10px', marginTop: '20px' }}>
-      <h3>What are you thinking about?</h3>
+    <div style={{ padding: '10px', marginTop: '10px' }}>
+      <h3>What do you remember?</h3>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {comments.length === 0 && <p>Aucun commentaire pour le moment.</p>}
+      {comments.length === 0 && <p>No comments.</p>}
       {comments.map((comment) => (
         <div key={comment._id} style={{ marginBottom: '15px', position: 'relative' }}>
           <p>
@@ -164,7 +164,7 @@ const CommentSection = ({ photoId, currentUserId }) => {
                     onClick={() => handleEditComment(editingComment.id, editingComment.content)}
                     style={{ marginRight: '5px' }}
                   >
-                    Sauvegarder
+                    Save
                   </button>
                   <button onClick={() => setEditingComment(null)}>Annuler</button>
                 </div>
@@ -218,7 +218,7 @@ const CommentSection = ({ photoId, currentUserId }) => {
                 }}
                 style={{ display: 'block', padding: '10px', width: '100%' }}
               >
-                Modifier
+                Modify
               </button>
               <button
                 onClick={() => {
@@ -227,7 +227,7 @@ const CommentSection = ({ photoId, currentUserId }) => {
                 }}
                 style={{ display: 'block', padding: '10px', width: '100%' }}
               >
-                Supprimer
+                Delete
               </button>
             </div>
           )}
@@ -238,14 +238,14 @@ const CommentSection = ({ photoId, currentUserId }) => {
           <textarea
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Ajouter un commentaire..."
+            placeholder="Tell us..."
             rows="4"
             style={{ width: '100%', marginBottom: '10px' }}
           />
-          <button type="submit">Envoyer</button>
+          <button type="submit">Post</button>
         </form>
       ) : (
-        <p>Connectez-vous pour laisser un commentaire.</p>
+        <p>Please login to post.</p>
       )}
     </div>
   );

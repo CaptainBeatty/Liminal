@@ -338,7 +338,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
                   borderRadius: '5px',
                 }}
               >
-                Enregistrer
+                Save
               </button>
               <button
                 onClick={() => setIsEditing(false)}
@@ -351,13 +351,13 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
                   borderRadius: '5px',
                 }}
               >
-                Annuler
+                Cancel
               </button>
             </div>
           )}
         </div>
-        <button onClick={handleToggleComments}>
-      {showComments ? 'Cacher les commentaires' : 'Afficher les commentaires'}
+        <button onClick={handleToggleComments} style={{marginTop: '20px'}}>
+      {showComments ? 'Hide Memories' : 'Memories'}
     </button>
 
     {showComments && <CommentSection photoId={photoId} currentUserId={currentUserId}/>}
