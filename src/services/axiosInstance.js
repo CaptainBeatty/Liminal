@@ -2,8 +2,8 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api', // Remplacez par votre URL de base
-  // baseURL: process.env.REACT_APP_BACKEND_URL, // Remplacez par votre URL de base
+  // baseURL: 'http://localhost:5000/api', // Remplacez par votre URL de base
+  baseURL: process.env.REACT_APP_BACKEND_URL, // Remplacez par votre URL de base
 });
 
 api.interceptors.request.use((config) => {
