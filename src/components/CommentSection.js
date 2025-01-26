@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from '../services/axiosInstance';
@@ -135,7 +134,7 @@ const CommentSection = ({ photoId, currentUserId }) => {
 
   return (
     <div style={{ padding: '10px', marginTop: '10px' }}>
-      <h3>What do you remember?</h3>
+      <h3>What does it mean?</h3>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {comments.length === 0 && <p>No comments.</p>}
       {comments.map((comment) => (
