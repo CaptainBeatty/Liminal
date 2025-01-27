@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './Header.css'; // Importation du fichier CSS
 
 const Header = ({
@@ -27,7 +29,14 @@ const Header = ({
               className={`button ${isPhotoFormOpen ? 'photoFormOpen' : ''}`}
               onClick={onTogglePhotoForm}
             >
-              {isPhotoFormOpen ? 'Close' : 'Post'}
+              {isPhotoFormOpen ? (
+                'Close'
+              ) : (
+                <>
+                  <FontAwesomeIcon icon={faPlus} style={{ marginRight: '5px' }} />
+                  Post
+                </>
+              )}
             </button>
             <button className="button" onClick={onLogout}>
               Logout

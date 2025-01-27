@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from '../services/axiosInstance';
+import './CommentSection.css'; 
 
 const CommentSection = ({ photoId, currentUserId }) => {
   const [comments, setComments] = useState([]);
@@ -143,7 +144,7 @@ const CommentSection = ({ photoId, currentUserId }) => {
             <strong>{comment.userId?.username || 'Utilisateur inconnu'}</strong> -{' '}
             {new Date(comment.createdAt).toLocaleString()}
           </p>
-          <div
+          <div className='comments'
             style={{
               display: 'flex',
               justifyContent: 'space-between',
@@ -186,6 +187,7 @@ const CommentSection = ({ photoId, currentUserId }) => {
                   <button
                     ref={menuOpen === comment._id ? buttonRef : null}
                     onClick={() => handleMenuToggle(comment._id)}
+                    className="menu-button"
                     style={{
                       border: 'none',
                       background: 'transparent',
@@ -199,17 +201,8 @@ const CommentSection = ({ photoId, currentUserId }) => {
             )}
           </div>
           {menuOpen === comment._id && (
-            <div
+            <div className='comment-style'
               ref={menuRef}
-              style={{
-                position: 'absolute',
-                top: '80px',
-                right: '0',
-                border: '1px solid #ccc',
-                backgroundColor: '#fff',
-                boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
-                zIndex: 10,
-              }}
             >
               <button
                 onClick={() => {

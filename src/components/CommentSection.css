@@ -1,0 +1,36 @@
+/* Par défaut (grands écrans) */
+.comment-style {
+  position: absolute;
+  top: 100px;
+  right: 0;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+/* Style de base pour le bouton du menu */
+.menu-button {
+  transition: transform 0.2s ease-in-out; /* Animation fluide */
+}
+
+/* Effet au survol */
+.menu-button:hover {
+  transform: scale(1.2); /* Agrandit légèrement le bouton */
+}
+
+
+/* Pour les petits écrans (<425px) */
+@media (max-width: 425px) {
+
+  .comments {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .comment-style {
+    top: auto; /* Annule la valeur 'top' */
+    right: 50%; /* Centre horizontalement */
+    transform: translateX(50%); /* Ajuste pour bien centrer */
+  }
+}
