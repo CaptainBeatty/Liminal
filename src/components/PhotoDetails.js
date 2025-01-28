@@ -176,7 +176,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
           <FontAwesomeIcon
             icon={faChevronLeft}
             onClick={() => navigate(-1)}
-            style={{ fontSize: '24px', cursor: 'pointer', marginRight: '10px' }}
+            style={{ cursor: 'pointer', marginRight: '10px' }}
             className="chevron-icon"
             title="Retour"
           />

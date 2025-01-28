@@ -1,14 +1,34 @@
-
 .chevron-icon {
-    font-size: 24px;
-    cursor: pointer;
-    margin-right: 10px;
-  }
+  /* Taille fixe pour éviter le déplacement des éléments */
+  width: 36px;
+  height: 36px;
+
+  /* Permet de centrer l’icône à l’intérieur de ce carré */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 10px;
+
+  /* Bordure transparente initialement, même épaisseur que celle en hover */
+  border: 1px solid transparent;
+  border-radius: 50%;
+
+  /* Pour une transition douce */
+  transition: border 0.3s ease, transform 0.2s ease;
+  box-sizing: border-box;
+}
+
+/* Survol */
+.chevron-icon:hover {
+  border-color: gray; /* deviens visible au hover */
   
-  /* Masquer le chevron sur les écrans inférieurs à 425px */
-  @media (max-width: 425px) {
-    .chevron-icon {
-      display: none;
-    }
+}
+
+/* Masquer le chevron sur les écrans inférieurs à 425px */
+@media (max-width: 425px) {
+  .chevron-icon {
+    display: none;
   }
-  
+}

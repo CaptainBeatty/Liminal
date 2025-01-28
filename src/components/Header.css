@@ -53,11 +53,17 @@
     cursor: pointer;
     transition: all 0.3s ease;
   }
+
+  .button:hover {
+    box-shadow: inset 0 0 0 2px #0056b3;
+    transition: all 0.2s ease-in-out; /* pour une transition plus fluide */
+  }
+  
   
   .button.photoFormOpen {
     background-color: grey;
     color: white;
-    border: 1px solid grey;
+    border: 1px solid #007bff;
   }
   
   .button.loginOpen,
