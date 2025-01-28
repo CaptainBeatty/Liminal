@@ -1,20 +1,25 @@
-/* Par défaut (grands écrans) */
+/* === MENU MODIFY/DELETE (PAR DÉFAUT : GRANDS ÉCRANS) === */
 .comment-style {
-  position: absolute;
-  top: 100%;
-  right: 0;
+  position: absolute;         /* Pour apparaître sous l'icône ellipsis */
+  top: 100%;                  /* Juste en dessous de l'élément parent */
+  left: 50%;                  /* Centre horizontalement */
+  transform: translateX(-50%);
+
+  min-width: 160px;
   border: 1px solid #ccc;
   background-color: #fff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   z-index: 10;
+
   display: flex;
-  flex-direction: column;
+  flex-direction: row;        /* Les boutons côte à côte */
+  justify-content: center;    /* Centre horizontalement */
+  align-items: center;        /* Centre verticalement */
+
   padding: 5px;
-  min-width: 130px;
-  border-radius: 8px; /* Coins arrondis */
+  border-radius: 8px;         /* Coins arrondis */
 }
 
-/* Style des boutons du menu Modify/Delete */
+/* === BOUTONS MODIFY/DELETE === */
 .comment-style button {
   background: #f4f4f4;
   border: none;
@@ -24,9 +29,10 @@
   text-align: center;
   border-radius: 6px;
   transition: background 0.2s ease, transform 0.1s ease;
-  width: 100%;
-  margin: 3px 0;
   font-weight: bold;
+
+  /* Plus de width: 100% pour qu'ils restent côte à côte */
+  margin: 0 5px; /* Un peu d'espace horizontal entre les boutons */
 }
 
 /* Effet au survol des boutons */
@@ -46,17 +52,15 @@
   outline: 2px solid #888;
 }
 
-/* Style de base pour le bouton du menu */
+/* === BOUTON DU MENU (ELLIPSIS) === */
 .menu-button {
   transition: transform 0.2s ease-in-out;
 }
-
-/* Effet au survol */
 .menu-button:hover {
   transform: scale(1.2);
 }
 
-/* ======= STYLE DU TEXTAREA DE MODIFICATION ======= */
+/* === TEXTAREA DE MODIFICATION DE COMMENTAIRE === */
 .comment-edit-textarea {
   width: 100%;
   min-height: 80px;
@@ -69,21 +73,20 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Effet au focus */
+/* Effet au focus (textarea) */
 .comment-edit-textarea:focus {
   border-color: #888;
   box-shadow: 0 0 5px rgba(136, 136, 136, 0.5);
   outline: none;
 }
 
-/* ======= STYLE DES BOUTONS SAVE & CANCEL ======= */
+/* === BOUTONS SAVE & CANCEL === */
 .comment-edit-buttons {
   display: flex;
   justify-content: flex-end;
   gap: 8px;
   margin-top: 8px;
 }
-
 .comment-edit-buttons button {
   padding: 8px 12px;
   font-size: 14px;
@@ -99,12 +102,10 @@
   background: #4CAF50;
   color: white;
 }
-
 .comment-edit-buttons .save-button:hover {
   background: #45a049;
   transform: scale(1.05);
 }
-
 .comment-edit-buttons .save-button:active {
   background: #3e8e41;
   transform: scale(1);
@@ -115,18 +116,16 @@
   background: #f44336;
   color: white;
 }
-
 .comment-edit-buttons .cancel-button:hover {
   background: #d32f2f;
   transform: scale(1.05);
 }
-
 .comment-edit-buttons .cancel-button:active {
   background: #b71c1c;
   transform: scale(1);
 }
 
-/* ======= STYLE DU TEXTAREA D'AJOUT DE COMMENTAIRE ======= */
+/* === TEXTAREA D'AJOUT DE NOUVEAU COMMENTAIRE === */
 .new-comment-textarea {
   width: 100%;
   min-height: 80px;
@@ -139,15 +138,13 @@
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
   margin-bottom: 10px;
 }
-
-/* Effet au focus */
 .new-comment-textarea:focus {
   border-color: #888;
   box-shadow: 0 0 5px rgba(136, 136, 136, 0.5);
   outline: none;
 }
 
-/* ======= STYLE DU BOUTON POST ======= */
+/* === BOUTON POST === */
 .post-button {
   background: #4CAF50;
   color: white;
@@ -161,61 +158,66 @@
   width: 100px;
   text-align: center;
 }
-
-/* Effet au survol */
 .post-button:hover {
   background: #45a049;
   transform: scale(1.05);
 }
-
-/* Effet au clic */
 .post-button:active {
   background: #3e8e41;
   transform: scale(1);
 }
-
-/* Effet de focus pour l'accessibilité */
 .post-button:focus {
   outline: 2px solid #888;
 }
 
-/* ======= ADAPTATION POUR MOBILE < 425px ======= */
+/* === ADAPTATION POUR MOBILE < 425px === */
 @media (max-width: 425px) {
+  /* Pour la liste de commentaires, si besoin */
   .comments {
     display: flex;
     flex-direction: column;
   }
 
+  /* On garde l'absolu pour rester sous l'icône, 
+     on ajuste la min-width et on ajoute un box-shadow */
   .comment-style {
-    top: auto;
-    right: 50%;
-    transform: translateX(50%);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
     min-width: 100px;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+
+    flex-direction: row;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
   }
 
   .comment-style button {
     padding: 8px;
     font-size: 13px;
+    margin: 3px; /* Au lieu de 0 5px */
+    /* Pas de width: 100% pour rester côte à côte et centrés */
   }
 
+  /* Icône ellipsis un peu moins zoomée au survol sur mobile */
   .menu-button:hover {
     transform: scale(1.1);
   }
 
-  .comment-edit-buttons {
-    flex-direction: column;
-  }
-
+  /* Vous pouvez laisser Save/Cancel prendre toute la largeur en mode édition */
   .comment-edit-buttons button {
     width: 100%;
   }
 
+  /* Réduire un peu la taille du texte et le padding */
   .new-comment-textarea {
     padding: 8px;
     font-size: 13px;
   }
 
+  /* Le bouton Post prend toute la largeur en mobile si souhaité */
   .post-button {
     width: 100%;
   }

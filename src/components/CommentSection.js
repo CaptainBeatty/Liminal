@@ -147,7 +147,9 @@ const CommentSection = ({ photoId, currentUserId }) => {
             style={{
               display: 'flex',
               justifyContent: 'space-between',
+              flexDirection : 'column',
               alignItems: 'center',
+              width: '100%',
             }}
           >
             {editingComment?.id === comment._id ? (
