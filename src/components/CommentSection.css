@@ -1,36 +1,51 @@
-/* Par défaut (grands écrans) */
-.comment-style {
-  position: absolute;
-  top: 100px;
-  right: 0;
+/* ======= STYLE DU TEXTAREA D'AJOUT ======= */
+.new-comment-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 8px;
   border: 1px solid #ccc;
-  background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  z-index: 10;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  resize: vertical;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Style de base pour le bouton du menu */
-.menu-button {
-  transition: transform 0.2s ease-in-out; /* Animation fluide */
+/* Effet au focus pour le textarea */
+.new-comment-textarea:focus {
+  border-color: #888;
+  box-shadow: 0 0 5px rgba(136, 136, 136, 0.5);
+  outline: none;
+}
+
+/* ======= STYLE DU BOUTON POST ======= */
+.post-button {
+  background: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  width: 100px; /* Largeur fixe */
+  text-align: center;
 }
 
 /* Effet au survol */
-.menu-button:hover {
-  transform: scale(1.2); /* Agrandit légèrement le bouton */
+.post-button:hover {
+  background: #45a049;
+  transform: scale(1.05);
 }
 
+/* Effet au clic */
+.post-button:active {
+  background: #3e8e41;
+  transform: scale(1);
+}
 
-/* Pour les petits écrans (<425px) */
-@media (max-width: 425px) {
-
-  .comments {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .comment-style {
-    top: auto; /* Annule la valeur 'top' */
-    right: 50%; /* Centre horizontalement */
-    transform: translateX(50%); /* Ajuste pour bien centrer */
-  }
+/* Effet de focus pour l'accessibilité */
+.post-button:focus {
+  outline: 2px solid #888;
 }

@@ -135,7 +135,6 @@ const CommentSection = ({ photoId, currentUserId }) => {
 
   return (
     <div style={{ padding: '10px', marginTop: '10px' }}>
-      <h3>What does it mean?</h3>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {comments.length === 0 && <p>No comments.</p>}
       {comments.map((comment) => (
@@ -158,16 +157,16 @@ const CommentSection = ({ photoId, currentUserId }) => {
                   onChange={(e) =>
                     setEditingComment({ id: comment._id, content: e.target.value })
                   }
-                  style={{ flex: 1, marginRight: '10px' }}
+                  className="comment-edit-textarea"
                 />
-                <div style={{ display: 'flex', flexDirection: 'column', marginRight: '10px' }}>
+                <div className="comment-edit-buttons">
                   <button
                     onClick={() => handleEditComment(editingComment.id, editingComment.content)}
-                    style={{ marginRight: '5px' }}
+                    className="save-button"
                   >
                     Save
                   </button>
-                  <button onClick={() => setEditingComment(null)}>Annuler</button>
+                  <button onClick={() => setEditingComment(null)} className="cancel-button">Cancel</button>
                 </div>
               </>
             ) : (
@@ -233,9 +232,9 @@ const CommentSection = ({ photoId, currentUserId }) => {
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="Tell us..."
             rows="4"
-            style={{ width: '100%', marginBottom: '10px' }}
+            className="new-comment-textarea"
           />
-          <button type="submit">Post</button>
+          <button type="submit" className="post-button">Post</button>
         </form>
       ) : (
         <p>Please login to post.</p>
