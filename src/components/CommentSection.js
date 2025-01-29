@@ -37,6 +37,8 @@ const CommentSection = ({ photoId, currentUserId }) => {
       });
   }, [photoId, token]);
 
+  
+
   const handleAddComment = (e) => {
     e.preventDefault();
 
@@ -133,6 +135,13 @@ const CommentSection = ({ photoId, currentUserId }) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setEditingComment(null); // Ferme la textarea en cas de déconnexion
+    }
+  }, [isLoggedIn]);
+  
+
   return (
     <div style={{ padding: '10px', marginTop: '10px' }}>
       {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -149,7 +158,7 @@ const CommentSection = ({ photoId, currentUserId }) => {
               justifyContent: 'space-between',
               flexDirection : 'column',
               alignItems: 'center',
-              width: '100%',
+              width: '100%'
             }}
           >
             {editingComment?.id === comment._id ? (
