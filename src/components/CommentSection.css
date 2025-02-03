@@ -1,4 +1,12 @@
 /* === MENU MODIFY/DELETE (PAR DÉFAUT : GRANDS ÉCRANS) === */
+
+.text-ellipse-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
 .comment-style {
   position: absolute;
   top: 100%;
@@ -116,7 +124,7 @@
 
 .reply-buttons {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   margin-top: 5px;
 }
 
@@ -186,6 +194,10 @@
 @media (max-width: 425px) {
   .comments {
     display: flex;
+    flex-direction: column;
+  }
+
+  .text-ellipse-button {
     flex-direction: column;
   }
 

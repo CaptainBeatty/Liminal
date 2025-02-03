@@ -46,7 +46,7 @@ const CommentItem = ({ comment, currentUserId, onEditComment, onDeleteComment })
           </div>
         </div>
       ) : (
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div className="text-ellipse-button">
           <p style={{ flex: 1, wordWrap: 'break-word', overflowWrap: 'break-word', maxWidth: '100%', whiteSpace: 'pre-wrap' }}>{comment.content}</p>
           {comment.userId?._id === currentUserId && (
             <>
