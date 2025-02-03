@@ -429,7 +429,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
         </div>
 
         {/* Affichage conditionnel de la section des commentaires */}
-        {showComments && <CommentSection photoId={photoId} currentUserId={currentUserId} />}
+        {showComments && <CommentSection photoId={photoId} currentUserId={currentUserId}  />}
       </div>
     </>
   );
