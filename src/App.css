@@ -16,6 +16,10 @@ html, body {
 
 /* Section de contenu principale */
 .content {
+  background-image: url('./textured-background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   flex: 1; /* Permet au contenu de s'étendre pour occuper l'espace disponible */
   padding: 20px; /* Ajoute un peu d'espace autour du contenu */
 }
