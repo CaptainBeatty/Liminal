@@ -15,16 +15,23 @@ const Register = () => {
     setLoading(true);
     setErrorMessage('');
     try {
-      const res = await axiosInstance.post('/auth/register', formData); // Utilisation de axiosInstance
+      const res = await axiosInstance.post('/auth/register', formData); 
       alert(res.data.message); // Afficher un message de succès
       setFormData({ username: '', email: '', password: '' }); // Réinitialiser le formulaire
     } catch (err) {
-      console.error(err.response?.data?.error || err.message);
-      setErrorMessage(err.response?.data?.error || 'Une erreur est survenue. Veuillez réessayer.');
+      // Vérifie si le serveur renvoie un code 400 + un message spécifique
+      if (err.response?.status === 400 && err.response?.data?.error === "Ce nom d'utilisateur est déjà pris.") {
+        setErrorMessage("Le nom d'utilisateur est déjà utilisé, veuillez en choisir un autre.");
+      } else {
+        // Sinon, message d'erreur générique
+        console.error(err.response?.data?.error || err.message);
+        setErrorMessage(err.response?.data?.error || 'Une erreur est survenue. Veuillez réessayer.');
+      }
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div style={styles.container}>
