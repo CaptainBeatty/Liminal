@@ -8,6 +8,7 @@
     color: white;
     font-style: italic;
     border-bottom: solid grey;
+    z-index: 10;
   }
   
   .title {
