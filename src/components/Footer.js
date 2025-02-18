@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
-import { faCcPaypal } from "@fortawesome/free-brands-svg-icons"; // Icône PayPal
+import { faPaypal } from "@fortawesome/free-brands-svg-icons"; // Icône PayPal
 import "./Footer.css";
 
 const Footer = () => {
@@ -25,7 +25,7 @@ const Footer = () => {
                     rel="noopener noreferrer"
                     className="footer-link paypal-button"
                 >
-                    <FontAwesomeIcon icon={faCcPaypal} /> Donate 
+                    <FontAwesomeIcon icon={faPaypal} /> Donate 
                 </a>
             </div>
             <div className="footer-section">

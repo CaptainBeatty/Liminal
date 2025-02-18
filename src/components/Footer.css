@@ -26,6 +26,8 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    font-style: italic;
+    font-size: 16px;
 
 }
 
@@ -33,10 +35,7 @@
     color: #facc15; /* Jaune clair au survol */
 }
 
-.paypal-button {
-    font-weight: lighter;
-    font-size: 16px;
-}
+
 /* Boutons du footer */
 .footer-button {
     color: #61dafb; /* Couleur des liens */
