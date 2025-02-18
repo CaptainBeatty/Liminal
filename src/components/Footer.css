@@ -15,7 +15,7 @@
 }
 
 /* Conteneur des liens */
-.footer-links {
+.footer-link {
     display: flex;
     justify-content: center;
     flex-wrap: wrap; /* Les boutons passent à la ligne si l'espace est limité */
@@ -34,7 +34,7 @@
 }
 
 .paypal-button {
-    font-weight: bold;
+    font-weight: lighter;
     font-size: 16px;
 }
 /* Boutons du footer */

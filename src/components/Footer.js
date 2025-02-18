@@ -15,7 +15,7 @@ const Footer = () => {
             </div>
             <div className="footer-section">
                 <Link to="./about-liminal" className="footer-link">
-                    Who are we ?
+                    About Liminal 
                 </Link>
             </div>
             <div className="footer-section">
@@ -25,12 +25,12 @@ const Footer = () => {
                     rel="noopener noreferrer"
                     className="footer-link paypal-button"
                 >
-                    <FontAwesomeIcon icon={faCcPaypal} /> Donate with PayPal
+                    <FontAwesomeIcon icon={faCcPaypal} /> Donate 
                 </a>
             </div>
             <div className="footer-section">
                 <a href="mailto:webmaster@liminal.com" className="footer-link">
-                    <FontAwesomeIcon icon={faEnvelope} /> Contact Webmaster
+                    <FontAwesomeIcon icon={faEnvelope} /> Contact 
                 </a>
             </div>
         </footer>
