@@ -20,7 +20,7 @@ const Footer = () => {
             </div>
             <div className="footer-section">
                 <a
-                    href="https://www.paypal.com/donate?hosted_button_id=C3JR8J3FW89XC"
+                    href="https://www.paypal.com/donate?hosted_button_id=7SRZV6QNKP326"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="footer-link paypal-button"
