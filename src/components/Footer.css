@@ -18,11 +18,25 @@
 .footer-links {
     display: flex;
     justify-content: center;
-    gap: 20px; /* Espacement entre les boutons */
     flex-wrap: wrap; /* Les boutons passent à la ligne si l'espace est limité */
     margin-top: 10px; /* Espacement avec le texte principal du footer */
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
 }
 
+.footer-link:hover {
+    color: #facc15; /* Jaune clair au survol */
+}
+
+.paypal-button {
+    font-weight: bold;
+    font-size: 16px;
+}
 /* Boutons du footer */
 .footer-button {
     color: #61dafb; /* Couleur des liens */
