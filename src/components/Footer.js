@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
-import { faPaypal } from "@fortawesome/free-brands-svg-icons"; // Icône PayPal
+import { faPaypal } from "@fortawesome/free-brands-svg-icons";
 import "./Footer.css";
 
 const Footer = () => {
@@ -15,7 +15,7 @@ const Footer = () => {
             </div>
             <div className="footer-section">
                 <Link to="./about-liminal" className="footer-link">
-                    About Liminal 
+                    About Liminal
                 </Link>
             </div>
             <div className="footer-section">
@@ -25,13 +25,13 @@ const Footer = () => {
                     rel="noopener noreferrer"
                     className="footer-link paypal-button"
                 >
-                    <FontAwesomeIcon icon={faPaypal} /> Donate 
+                    <FontAwesomeIcon icon={faPaypal} /> Donate
                 </a>
             </div>
             <div className="footer-section">
-                <a href="mailto:webmaster@liminal.com" className="footer-link">
-                    <FontAwesomeIcon icon={faEnvelope} /> Contact 
-                </a>
+                <Link to="/about-liminal#contact-form" className="footer-link">
+                    <FontAwesomeIcon icon={faEnvelope} /> Contact
+                </Link>
             </div>
         </footer>
     );
