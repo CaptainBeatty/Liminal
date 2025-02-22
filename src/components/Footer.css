@@ -11,16 +11,27 @@
     z-index: 10; /* Assure que le footer reste au-dessus d'autres éléments */
     border-top: solid grey;
     width: 100%;
-
 }
 
 /* Conteneur des liens */
-.footer-links {
-    display: flex;
+.footer-link {
+    display: inline-flex; /* Assure que la largeur s'adapte au contenu */
     justify-content: center;
-    gap: 20px; /* Espacement entre les boutons */
-    flex-wrap: wrap; /* Les boutons passent à la ligne si l'espace est limité */
+    align-items: center;
     margin-top: 10px; /* Espacement avec le texte principal du footer */
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+    gap: 8px;
+    font-style: italic;
+    font-size: 16px;
+    padding: 6px 10px; /* Ajustement pour éviter des boutons trop larges */
+    border-radius: 4px;
+    width: auto; /* Assure que la largeur ne dépasse pas le contenu */
+}
+
+.footer-link:hover {
+    color: #facc15; /* Jaune clair au survol */
 }
 
 /* Boutons du footer */
@@ -28,12 +39,13 @@
     color: #61dafb; /* Couleur des liens */
     text-decoration: none;
     font-size: 1rem;
-    padding: 10px 15px;
+    padding: 8px 12px;
     border: 2px solid #61dafb; /* Bordure des boutons */
     border-radius: 5px;
     transition: all 0.3s ease-in-out; /* Animation fluide */
-    display: inline-block;
-    font-weight: bold; /* Met le texte en gras pour plus de lisibilité */
+    display: inline-block; /* Limite la largeur au contenu */
+    font-weight: bold; /* Texte en gras pour la lisibilité */
+    width: auto; /* Empêche la largeur excessive */
 }
 
 .footer-button:hover {
@@ -48,12 +60,13 @@
         padding: 15px;
     }
 
-    .footer-links {
-        gap: 10px; /* Réduction de l'espacement entre les boutons */
+    .footer-link {
+        font-size: 0.9rem;
+        padding: 6px 8px; /* Réduction du padding sur mobiles */
     }
 
     .footer-button {
-        font-size: 0.9rem; /* Ajustement de la taille des boutons */
-        padding: 8px 12px;
+        font-size: 0.9rem;
+        padding: 6px 10px;
     }
 }

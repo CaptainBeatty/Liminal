@@ -4,14 +4,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faSliders, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp as faThumbsUpRegular, faThumbsDown as faThumbsDownRegular } from '@fortawesome/free-regular-svg-icons';
 import { faThumbsUp as faThumbsUpSolid, faThumbsDown as faThumbsDownSolid } from '@fortawesome/free-solid-svg-icons';
+import { faMessage as faMessageRegular } from '@fortawesome/free-regular-svg-icons'; // <-- si vous souhaitez l'import explicite
 import axiosInstance from '../services/axiosInstance';
 import dayjs from 'dayjs';
 import Loader from './Loader';
+import CommentSection from './CommentSection';
+
 import './PhotoDetails.css';
 
-const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) => {
+const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) => {
   const { id } = useParams();
+  const { id: photoId } = useParams(); 
   const navigate = useNavigate();
+
   const [photo, setPhoto] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
@@ -25,6 +30,10 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [showComments, setShowComments] = useState(false);
+
+  // --> Ajout d'un state pour le tooltip
+  const [showTooltip, setShowTooltip] = useState(false);
 
   useEffect(() => {
     const fetchPhoto = async () => {
@@ -143,7 +152,12 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
 
   const handleDeleteIconClick = () => {
     setShowDeleteConfirmation((prevShowDeleteConfirmation) => !prevShowDeleteConfirmation);
-    setIsEditing(false) 
+    setIsEditing(false);
+  };
+
+  // --> Reste inchangé, sauf qu'on ne liera plus ce toggle à un bouton texte, mais à l'icône
+  const handleToggleComments = () => {
+    setShowComments((prev) => !prev);
   };
 
   return (
@@ -162,7 +176,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
           <FontAwesomeIcon
             icon={faChevronLeft}
             onClick={() => navigate(-1)}
-            style={{ fontSize: '24px', cursor: 'pointer', marginRight: '10px' }}
+            style={{ cursor: 'pointer', marginRight: '10px' }}
             className="chevron-icon"
             title="Retour"
           />
@@ -172,87 +186,117 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
         </div>
 
         <div style={{ marginTop: '15px', fontSize: '16px', fontWeight: 'bold' }}>
-          <img src={photo?.imageUrl} alt={photo?.title} style={{ width: '100%', borderRadius: '10px', border: 'solid grey', boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)' }} />
-          <div style={{ marginTop: '10px', fontSize: '14px', fontStyle: 'italic', textAlign: 'center' }}>
+          <img
+            src={photo?.imageUrl}
+            alt={photo?.title}
+            style={{
+              width: '100%',
+              borderRadius: '10px',
+              border: 'solid grey',
+              boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)',
+            }}
+          />
+          <div
+            style={{
+              marginTop: '10px',
+              fontSize: '14px',
+              fontStyle: 'italic',
+              textAlign: 'center',
+            }}
+          >
             <p>
-              {`${photo?.location || 'Lieu non spécifié'} on ${photo?.date ? dayjs(photo.date, 'D MMMM YYYY').format('MMMM DD, YYYY') : 'an unknown date'} by ${photo?.authorName || 'Auteur inconnu'} with ${photo?.cameraType || 'Non spécifié'}`}
+              {`${photo?.location || 'Lieu non spécifié'} on ${
+                photo?.date ? dayjs(photo.date, 'D MMMM YYYY').format('MMMM DD, YYYY') : 'an unknown date'
+              } by ${photo?.authorName || 'Auteur inconnu'} with ${photo?.cameraType || 'Non spécifié'}`}
             </p>
           </div>
 
-          <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', gap: '15px' }}>
-          <div >
-            <button
-              onClick={handleLike}
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'transform 0.2s ease',
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-            >
-              <FontAwesomeIcon
-                icon={liked ? faThumbsUpSolid : faThumbsUpRegular}
-                style={{ fontSize: '24px', color: liked ? 'black' : '#000' }}
-              />
-              <span style={{ marginLeft: '1px' }}>{likes}</span>
-            </button>
-            <button
-              onClick={handleDislike}
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                cursor: 'pointer',
-                transition: 'transform 0.2s ease',
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-            >
-              <FontAwesomeIcon
-                icon={disliked ? faThumbsDownSolid : faThumbsDownRegular}
-                style={{ fontSize: '24px', color: disliked ? 'black' : '#000' }}
-              />
-              <span style={{ marginLeft: '1px' }}>{dislikes}</span>
-            </button>
-          </div>
+          <div
+            style={{
+              marginTop: '20px',
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '15px',
+            }}
+          >
+            <div>
+              <button
+                onClick={handleLike}
+                style={{
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s ease',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.2)')}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+              >
+                <FontAwesomeIcon
+                  icon={liked ? faThumbsUpSolid : faThumbsUpRegular}
+                  style={{ fontSize: '24px', color: liked ? 'black' : '#000' }}
+                />
+                <span style={{ marginLeft: '1px' }}>{likes}</span>
+              </button>
+              <button
+                onClick={handleDislike}
+                style={{
+                  backgroundColor: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s ease',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.2)')}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+              >
+                <FontAwesomeIcon
+                  icon={disliked ? faThumbsDownSolid : faThumbsDownRegular}
+                  style={{ fontSize: '24px', color: disliked ? 'black' : '#000' }}
+                />
+                <span style={{ marginLeft: '1px' }}>{dislikes}</span>
+              </button>
+            </div>
 
             {currentUserId === photo?.userId && (
-          <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              width: '65px',
-            }}>
-              <>
-                <FontAwesomeIcon
-                  icon={isModifying ? faSliders: faSliders}
-                  style={{
-                    fontSize: '24px',
-                    cursor: 'pointer',
-                    transition: 'transform 0.2s ease',
-                  }}
-                  onClick={handleModifyClick}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                />
-                <FontAwesomeIcon
-                  icon={faTrash}
-                  style={{
-                    fontSize: '24px',
-                    cursor: 'pointer',
-                    transition: 'transform 0.2s ease',
-                  }}
-                  onClick={handleDeleteIconClick}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                />
-              </>
-          </div>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  width: '65px',
+                }}
+              >
+                <>
+                  <FontAwesomeIcon
+                    icon={isModifying ? faSliders : faSliders}
+                    style={{
+                      fontSize: '24px',
+                      cursor: 'pointer',
+                      transition: 'transform 0.2s ease',
+                    }}
+                    onClick={handleModifyClick}
+                    onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.2)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+                  />
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    style={{
+                      fontSize: '24px',
+                      cursor: 'pointer',
+                      transition: 'transform 0.2s ease',
+                    }}
+                    onClick={handleDeleteIconClick}
+                    onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.2)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+                  />
+                </>
+              </div>
             )}
           </div>
 
           {showDeleteConfirmation && (
-            <div className="delete-confirmation" style={{ marginTop: '10px', marginBottom: '10px',textAlign: 'center' }}>
+            <div
+              className="delete-confirmation"
+              style={{ marginTop: '10px', marginBottom: '10px', textAlign: 'center' }}
+            >
               <p style={{ fontStyle: 'italic', color: 'red' }}>Are you sure?</p>
               <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
                 <button
@@ -294,27 +338,27 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
                 placeholder="New title"
-                style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', borderRadius:'5px', }}
+                style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', borderRadius: '5px' }}
               />
               <input
                 type="text"
                 value={newCameraType}
                 onChange={(e) => setNewCameraType(e.target.value)}
                 placeholder="System"
-                style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', borderRadius:'5px', }}
+                style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', borderRadius: '5px' }}
               />
               <input
                 type="text"
                 value={newLocation}
                 onChange={(e) => setNewLocation(e.target.value)}
                 placeholder="Place"
-                style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', borderRadius:'5px', }}
+                style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', borderRadius: '5px' }}
               />
               <input
                 type="date"
                 value={newDate}
                 onChange={(e) => setNewDate(e.target.value)}
-                style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', borderRadius:'5px', }}
+                style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', borderRadius: '5px' }}
               />
               <button
                 onClick={handleUpdate}
@@ -328,7 +372,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
                   borderRadius: '5px',
                 }}
               >
-                Enregistrer
+                Save
               </button>
               <button
                 onClick={() => setIsEditing(false)}
@@ -341,11 +385,51 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose,}) =
                   borderRadius: '5px',
                 }}
               >
-                Annuler
+                Cancel
               </button>
             </div>
           )}
         </div>
+
+        {/* Remplacement du bouton par l'icône avec tooltip */}
+        <div
+          onClick={handleToggleComments}
+          onMouseEnter={() => setShowTooltip(true)}
+          onMouseLeave={() => setShowTooltip(false)}
+          style={{
+            marginTop: '20px',
+            display: 'inline-block',
+            position: 'relative',
+            cursor: 'pointer',
+          }}
+        >
+          <FontAwesomeIcon
+            icon={faMessageRegular}
+            style={{ fontSize: '24px', color: '#000' }}
+          />
+          {showTooltip && (
+            <div
+              style={{
+                position: 'absolute',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                bottom: '-30px',
+                backgroundColor: 'black',
+                color: 'white',
+                padding: '5px 8px',
+                borderRadius: '4px',
+                whiteSpace: 'nowrap',
+                zIndex: 999,
+                fontSize: '13px',
+              }}
+            >
+              some memories?
+            </div>
+          )}
+        </div>
+
+        {/* Affichage conditionnel de la section des commentaires */}
+        {showComments && <CommentSection photoId={photoId} currentUserId={currentUserId}  />}
       </div>
     </>
   );

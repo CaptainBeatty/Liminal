@@ -1,0 +1,239 @@
+/* === MENU MODIFY/DELETE (PAR DÉFAUT : GRANDS ÉCRANS) === */
+
+.text-ellipse-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.comment-style {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 160px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  z-index: 10;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  border-radius: 8px;
+}
+
+/* === BOUTONS MODIFY/DELETE === */
+.comment-style button {
+  background: #f4f4f4;
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 6px;
+  transition: background 0.2s ease, transform 0.1s ease;
+  font-weight: bold;
+  margin: 0 5px;
+}
+
+.comment-style button:hover {
+  background: #ddd;
+  transform: scale(1.05);
+}
+
+.comment-style button:active {
+  background: #ccc;
+  transform: scale(1);
+}
+
+.comment-style button:focus {
+  outline: 2px solid #888;
+}
+
+/* === BOUTON DU MENU (ELLIPSIS) === */
+.menu-button {
+  transition: transform 0.2s ease-in-out;
+}
+.menu-button:hover {
+  transform: scale(1.2);
+}
+
+/* === TEXTAREA DE MODIFICATION DE COMMENTAIRE === */
+.comment-edit-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  resize: vertical;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.comment-edit-textarea:focus {
+  border-color: #888;
+  box-shadow: 0 0 5px rgba(136, 136, 136, 0.5);
+  outline: none;
+}
+
+/* === BOUTONS SAVE & CANCEL === */
+.comment-edit-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* === STYLE DU BOUTON REPLY === */
+.reply-button {
+  background: transparent;
+  border: none;
+  color: #666; /* Couleur discrète */
+  cursor: pointer;
+  font-size: 14px;
+  padding: 5px 10px;
+  transition: color 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.reply-button:hover {
+  color: black;
+}
+
+/* === FORMULAIRE DE RÉPONSE === */
+.reply-form {
+  margin-top: 10px;
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.reply-textarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  resize: none;
+}
+
+.reply-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+}
+
+/* === BOUTONS POST & CANCEL (DANS LE FORMULAIRE DE RÉPONSE) === */
+.reply-post-button,
+.cancel-reply-button {
+  background: black;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.reply-post-button:hover,
+.cancel-reply-button:hover {
+  background: #333;
+}
+
+/* === TEXTAREA D'AJOUT DE NOUVEAU COMMENTAIRE === */
+.new-comment-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  resize: vertical;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.new-comment-textarea:focus {
+  border-color: #888;
+  box-shadow: 0 0 5px rgba(136, 136, 136, 0.5);
+  outline: none;
+}
+
+/* === BOUTON POST === */
+.post-button {
+  background: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  width: 100px;
+  text-align: center;
+}
+.post-button:hover {
+  background: #45a049;
+  transform: scale(1.05);
+}
+.post-button:active {
+  background: #3e8e41;
+  transform: scale(1);
+}
+.post-button:focus {
+  outline: 2px solid #888;
+}
+
+/* === ADAPTATION POUR MOBILE < 425px === */
+@media (max-width: 425px) {
+  .comments {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .text-ellipse-button {
+    flex-direction: column;
+  }
+
+  .comment-style {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 100px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.15);
+    flex-direction: row;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .comment-style button {
+    padding: 8px;
+    font-size: 13px;
+    margin: 3px;
+  }
+
+  .menu-button:hover {
+    transform: scale(1.1);
+  }
+
+  .comment-edit-buttons button {
+    width: 100%;
+  }
+
+  .new-comment-textarea {
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .post-button {
+    width: 100%;
+  }
+}

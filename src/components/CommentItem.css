@@ -1,0 +1,91 @@
+/* === TEXTAREA DE MODIFICATION DE COMMENTAIRE === */
+.comment-edit-textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    resize: vertical;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    background: #f9f9f9;
+  }
+  
+  .comment-edit-textarea:focus {
+    border-color: #888;
+    box-shadow: 0 0 8px rgba(136, 136, 136, 0.5);
+    background: #fff;
+    outline: none;
+  }
+  
+  /* === CONTAINER DES BOUTONS SAVE & CANCEL === */
+  .comment-edit-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  
+  /* === BOUTON ENREGISTRER === */
+  .save-button {
+    background: black;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease, transform 0.1s ease;
+  }
+  
+  .save-button:hover {
+    background: #333;
+    transform: scale(1.05);
+  }
+  
+  .save-button:active {
+    background: #222;
+    transform: scale(1);
+  }
+  
+  /* === BOUTON ANNULER === */
+  .cancel-button {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease, transform 0.1s ease;
+  }
+  
+  .cancel-button:hover {
+    background: #d32f2f;
+    transform: scale(1.05);
+  }
+  
+  .cancel-button:active {
+    background: #b71c1c;
+    transform: scale(1);
+  }
+  
+  /* === RESPONSIVE POUR PETITS ÉCRANS === */
+  @media (max-width: 425px) {
+    .comment-edit-textarea {
+      padding: 8px;
+      font-size: 13px;
+    }
+  
+    .comment-edit-buttons {
+      flex-direction: column;
+      gap: 5px;
+    }
+  
+    .save-button, .cancel-button {
+      width: 100%;
+      padding: 10px;
+    }
+  }
+  
