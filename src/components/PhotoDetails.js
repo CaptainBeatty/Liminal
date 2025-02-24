@@ -5,6 +5,8 @@ import { faChevronLeft, faSliders, faTrash } from '@fortawesome/free-solid-svg-i
 import { faThumbsUp as faThumbsUpRegular, faThumbsDown as faThumbsDownRegular } from '@fortawesome/free-regular-svg-icons';
 import { faThumbsUp as faThumbsUpSolid, faThumbsDown as faThumbsDownSolid } from '@fortawesome/free-solid-svg-icons';
 import { faMessage as faMessageRegular } from '@fortawesome/free-regular-svg-icons'; // <-- si vous souhaitez l'import explicite
+import { faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
+
 import axiosInstance from '../services/axiosInstance';
 import dayjs from 'dayjs';
 import Loader from './Loader';
@@ -163,6 +165,26 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
     setShowComments((prev) => !prev);
   };
 
+  const handleDownload = async () => {
+  try {
+    const response = await fetch(photo?.imageUrl);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = photo?.title || 'photo';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  } catch (err) {
+    console.error("Erreur lors du téléchargement", err);
+    alert("Une erreur est survenue lors du téléchargement.");
+  }
+};
+
+  
+
   return (
     <>
       <Loader isVisible={isLoading} />
@@ -187,20 +209,37 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
             {photo?.title}
           </h1>
         </div>
-
-        <div style={{ marginTop: '15px', fontSize: '16px', fontWeight: 'bold' }}>
-          <img
-            src={photo?.imageUrl}
-            alt={photo?.title}
-            style={{
-              width: '100%',
-              borderRadius: '10px',
-              border: 'solid grey',
-              boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)',
-              cursor: 'pointer' 
-            }}
-            onClick={() => setIsModalOpen(true)}
+        <div>
+          <div style={{ marginTop: '15px', fontSize: '16px', fontWeight: 'bold', position: 'relative' }}>
+            <img
+              src={photo?.imageUrl}
+              alt={photo?.title}
+              style={{
+                width: '100%',
+                borderRadius: '10px',
+                border: 'solid grey',
+                boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)',
+                cursor: 'pointer' 
+              }}
+                onClick={() => setIsModalOpen(true)}
           />
+           <FontAwesomeIcon
+              icon={faArrowUpFromBracket}
+              onClick={handleDownload}
+                style={{
+                  position: 'absolute',
+                  bottom: '10px',
+                  right: '10px',
+                  fontSize: '24px',
+                  color: '#fff',
+                  backgroundColor: 'rgba(0,0,0,0.5)',
+                  borderRadius: '50%',
+                  padding: '5px',
+                  cursor: 'pointer'
+                }}
+                  title="Télécharger la photo"
+              />
+        </div>
           <div
             style={{
               marginTop: '10px',
@@ -242,6 +281,22 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
             alt={photo?.title}
             style={{ maxWidth: '90vw', maxHeight: '90vh', borderRadius: '10px' }}
           />
+              <FontAwesomeIcon
+      icon={faArrowUpFromBracket}
+      onClick={handleDownload}
+      style={{
+        position: 'absolute',
+        bottom: '10px',
+        right: '10px',
+        fontSize: '24px',
+        color: '#fff',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        borderRadius: '50%',
+        padding: '5px',
+        cursor: 'pointer'
+      }}
+      title="Télécharger la photo"
+    />
           {/* Bouton de fermeture */}
           <button
             onClick={() => setIsModalOpen(false)}
