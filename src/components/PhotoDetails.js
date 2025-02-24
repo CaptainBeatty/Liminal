@@ -231,8 +231,8 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
                   bottom: '10px',
                   right: '10px',
                   fontSize: '24px',
-                  color: '#fff',
-                  backgroundColor: 'rgba(0,0,0,0.5)',
+                  color: 'black',
+                  backgroundColor: 'transparent',
                   borderRadius: '50%',
                   padding: '5px',
                   cursor: 'pointer'
@@ -282,21 +282,21 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
             style={{ maxWidth: '90vw', maxHeight: '90vh', borderRadius: '10px' }}
           />
               <FontAwesomeIcon
-      icon={faArrowUpFromBracket}
-      onClick={handleDownload}
-      style={{
-        position: 'absolute',
-        bottom: '10px',
-        right: '10px',
-        fontSize: '24px',
-        color: '#fff',
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        borderRadius: '50%',
-        padding: '5px',
-        cursor: 'pointer'
-      }}
-      title="Télécharger la photo"
-    />
+                icon={faArrowUpFromBracket}
+                onClick={handleDownload}
+                style={{
+                  position: 'absolute',
+                  bottom: '10px',
+                  right: '10px',
+                  fontSize: '24px',
+                  color: 'black',
+                  backgroundColor: 'transparent',
+                  borderRadius: '50%',
+                  padding: '5px',
+                  cursor: 'pointer'
+                }}
+                title="Télécharger la photo"
+              />
           {/* Bouton de fermeture */}
           <button
             onClick={() => setIsModalOpen(false)}
