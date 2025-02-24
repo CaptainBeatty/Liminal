@@ -44,6 +44,7 @@ const ResetPassword = ({ onShowLogin }) => {
         placeholder="Nouveau mot de passe"
         value={newPassword}
         onChange={(e) => setNewPassword(e.target.value)}
+        minLength="8"
         style={styles.input}
       />
       <input
@@ -51,6 +52,7 @@ const ResetPassword = ({ onShowLogin }) => {
         placeholder="Confirmez le mot de passe"
         value={confirmPassword}
         onChange={(e) => setConfirmPassword(e.target.value)}
+        minLength="8"
         style={styles.input}
       />
       {error && <p style={styles.error}>{error}</p>}

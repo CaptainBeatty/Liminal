@@ -62,6 +62,7 @@ const Register = () => {
           value={formData.password}
           onChange={handleChange}
           required
+          minLength="8" 
           style={styles.input}
         />
         {errorMessage && <p style={styles.error}>{errorMessage}</p>}
