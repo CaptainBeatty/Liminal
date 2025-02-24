@@ -9,8 +9,10 @@ import axiosInstance from '../services/axiosInstance';
 import dayjs from 'dayjs';
 import Loader from './Loader';
 import CommentSection from './CommentSection';
-
+import Modal from 'react-modal';
 import './PhotoDetails.css';
+
+Modal.setAppElement('#root');
 
 const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) => {
   const { id } = useParams();
@@ -31,6 +33,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
   const [disliked, setDisliked] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // --> Ajout d'un state pour le tooltip
   const [showTooltip, setShowTooltip] = useState(false);
@@ -194,7 +197,9 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
               borderRadius: '10px',
               border: 'solid grey',
               boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)',
+              cursor: 'pointer' 
             }}
+            onClick={() => setIsModalOpen(true)}
           />
           <div
             style={{
@@ -210,6 +215,53 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
               } by ${photo?.authorName || 'Auteur inconnu'} with ${photo?.cameraType || 'Non spécifié'}`}
             </p>
           </div>
+          <Modal
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        contentLabel="Image en haute résolution"
+        style={{
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.75)',
+            zIndex: 1000,
+          },
+          content: {
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            background: 'none',
+            border: 'none',
+          }
+        }}
+      >
+        <div style={{ position: 'relative' }}>
+          <img
+            src={photo?.imageUrl}
+            alt={photo?.title}
+            style={{ maxWidth: '90vw', maxHeight: '90vh', borderRadius: '10px' }}
+          />
+          {/* Bouton de fermeture */}
+          <button
+            onClick={() => setIsModalOpen(false)}
+            style={{
+              position: 'absolute',
+              top: '10px',
+              right: '10px',
+              background: 'rgba(0,0,0,0.5)',
+              border: 'none',
+              color: 'white',
+              fontStyle: 'italic',
+              padding: '5px 10px',
+              cursor: 'pointer',
+              borderRadius: '5px'
+            }}
+          >
+            Fermer
+          </button>
+        </div>
+      </Modal>
 
           <div
             style={{
@@ -387,6 +439,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
               >
                 Cancel
               </button>
+              
             </div>
           )}
         </div>
