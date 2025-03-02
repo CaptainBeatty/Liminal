@@ -225,7 +225,7 @@ useEffect(() => {
             {photo?.title}
           </h1>
         </div>
-        <div>
+        <div className='image'>
           <div style={{ marginTop: '15px', fontSize: '16px', fontWeight: 'bold', position: 'relative' }}>
             <img
               src={photo?.imageUrl}
@@ -257,7 +257,7 @@ useEffect(() => {
                   title="Télécharger la photo"
               />
         </div>
-          <div
+          <div 
             style={{
               marginTop: '10px',
               fontSize: '14px',
@@ -293,7 +293,7 @@ useEffect(() => {
           }
         }}
       >
-        <div className='image'>
+        <div >
           <img
             src={photo?.imageUrl}
             alt={photo?.title}
