@@ -37,10 +37,15 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
   const [showComments, setShowComments] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const [isDreaming, setIsDreaming] = useState(false);
+  
+
   // --> Ajout d'un state pour le tooltip
   const [showTooltip, setShowTooltip] = useState(false);
 
+  
   useEffect(() => {
+    
     const fetchPhoto = async () => {
       try {
         const res = await axiosInstance.get(`/photos/${id}`);
@@ -182,6 +187,17 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
     alert("Une erreur est survenue lors du téléchargement.");
   }
 };
+useEffect(() => {
+  // Déclenche l'effet aléatoirement toutes les 2 secondes (chance de 30%)
+  const interval = setInterval(() => {
+    if (Math.random() < 0.3) {
+      setIsDreaming(true);
+      // Réinitialise l'état après la durée de l'animation (2s)
+      setTimeout(() => setIsDreaming(false), 1000);
+    }
+  }, 2000);
+  return () => clearInterval(interval);
+}, []);
 
   
 
@@ -222,6 +238,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
                 cursor: 'pointer' 
               }}
                 onClick={() => setIsModalOpen(true)}
+                className={isDreaming ? 'dream-effect' : ''}
           />
            <FontAwesomeIcon
               icon={faArrowUpFromBracket}
