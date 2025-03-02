@@ -263,6 +263,7 @@ useEffect(() => {
               fontSize: '14px',
               fontStyle: 'italic',
               textAlign: 'center',
+              justifyContent: 'center'
             }}
           >
             <p>
@@ -292,7 +293,7 @@ useEffect(() => {
           }
         }}
       >
-        <div style={{ position: 'relative' }}>
+        <div className='image'>
           <img
             src={photo?.imageUrl}
             alt={photo?.title}
@@ -335,14 +336,7 @@ useEffect(() => {
         </div>
       </Modal>
 
-          <div
-            style={{
-              marginTop: '20px',
-              display: 'flex',
-              justifyContent: 'center',
-              gap: '15px',
-            }}
-          >
+          <div className='button-area'>
             <div>
               <button
                 onClick={handleLike}

@@ -26,6 +26,31 @@
   
 }
 
+.button-area {
+margin-top: 20px;
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 15px;
+background-color: lightgray;
+width: 250px;
+border-top-right-radius: 10px;
+border-top-left-radius: 10px;
+border-bottom-right-radius: 10px;
+border-bottom-left-radius: 10px;
+border: gray 1px solid;
+
+}
+
+.image {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
 /* Masquer le chevron sur les écrans inférieurs à 425px */
 @media (max-width: 425px) {
   .chevron-icon {
