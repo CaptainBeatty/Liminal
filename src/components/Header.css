@@ -7,7 +7,7 @@
   align-items: center;
   padding: 10px 20px;
   background-color: black;
-  color: white;
+  color: lightgray;
   font-style: italic;
   border-bottom: solid grey;
   z-index: 10;
@@ -17,15 +17,14 @@
   margin: 0;
   font-size: 2rem; /* Taille de base du texte */
   font-weight: light; /* Gras pour un titre bien visible */
-  color: white; /* Couleur principale */
+  color: lightgray; /* Couleur principale */
   text-align: center; /* Centrage du titre */
   transition: transform 0.2s linear; /* Transition fluide */
   cursor: pointer; /* Indique que le titre est interactif */
 }
 
 .title:hover {
-  transform: scale(1.05); /* Grossit légèrement le texte au survol */
-  color: white;
+  color: grey;
 }
 
 .rightSection {
