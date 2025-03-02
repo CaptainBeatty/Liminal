@@ -56,7 +56,7 @@
     .menuIcon {
       cursor: pointer;
       font-size: 2.5rem;
-      margin-left: 15px;
+      margin-left: 0;
     }
   }
   
@@ -76,7 +76,7 @@
     .menuIcon {
       cursor: pointer;
       font-size: 2.5rem;
-      margin-left: 15px;
+      margin-left: 0;
     }
   }
   

@@ -1,7 +1,7 @@
 // Header.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import BurgerMenu from './BurgerMenu';
+import BurgerMenu from './BurgerMenu.js';
 import './Header.css';
 
 const Header = ({
