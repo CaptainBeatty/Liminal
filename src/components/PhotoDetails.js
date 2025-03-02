@@ -230,8 +230,8 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
                   position: 'absolute',
                   bottom: '10px',
                   right: '10px',
-                  fontSize: '24px',
-                  color: 'black',
+                  fontSize: '20px',
+                  color: 'white',
                   backgroundColor: 'transparent',
                   borderRadius: '50%',
                   padding: '5px',
@@ -288,8 +288,8 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
                   position: 'absolute',
                   bottom: '10px',
                   right: '10px',
-                  fontSize: '24px',
-                  color: 'black',
+                  fontSize: '20px',
+                  color: 'white',
                   backgroundColor: 'transparent',
                   borderRadius: '50%',
                   padding: '5px',
@@ -513,7 +513,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
         >
           <FontAwesomeIcon
             icon={faMessageRegular}
-            style={{ fontSize: '24px', color: '#000' }}
+            style={{ fontSize: '20px', color: '#000' }}
           />
           {showTooltip && (
             <div
@@ -531,13 +531,19 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
                 fontSize: '13px',
               }}
             >
-              some memories?
+              Déja vu?
             </div>
           )}
         </div>
 
         {/* Affichage conditionnel de la section des commentaires */}
-        {showComments && <CommentSection photoId={photoId} currentUserId={currentUserId}  />}
+        {showComments && (
+          <CommentSection
+            photoId={photoId}
+            currentUserId={currentUserId}
+            onShowLogin={onShowLogin}  // Ajout de la prop pour déclencher le formulaire de login
+          />
+        )}
       </div>
     </>
   );

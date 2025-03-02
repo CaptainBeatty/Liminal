@@ -3,7 +3,7 @@ import axiosInstance from '../services/axiosInstance';
 import CommentItem from './CommentItem';
 import './CommentSection.css';
 
-const CommentSection = ({ photoId, currentUserId, onNewReply }) => {
+const CommentSection = ({ photoId, currentUserId, onNewReply, onShowLogin }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [error, setError] = useState(null);
@@ -161,7 +161,12 @@ const CommentSection = ({ photoId, currentUserId, onNewReply }) => {
           <button type="submit" className="post-button">Poster</button>
         </form>
       ) : (
-        <p>Veuillez vous connecter pour poster un commentaire.</p>
+        <p
+          style={{ fontWeight: '700', cursor: 'pointer' }}
+          onClick={onShowLogin}
+        >
+          Log in to comment
+        </p>
       )}
     </div>
   );

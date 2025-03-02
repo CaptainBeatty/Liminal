@@ -1,0 +1,82 @@
+/* BurgerMenu.css */
+
+/* Conteneur général pour le composant burger */
+.burger-menu-container {
+    position: relative;
+  }
+  
+  /* Icône burger */
+  .menuIcon {
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin-left: 15px;
+  }
+  
+  /* Menu déroulant */
+  .dropdownMenu {
+    position: absolute;
+    top: 60px; /* Ajustez selon la hauteur de votre header */
+    right: 0;
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 9999;
+    min-width: 150px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 8px 0;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  /* Élément du menu */
+  .dropdownItem {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  .dropdownItem:hover {
+    background-color: #f2f2f2;
+  }
+  
+  /* Pour les écrans < 425px : centrer le menu en dessous du bouton burger */
+  @media (max-width: 425px) {
+    .dropdownMenu {
+      top: 100px;
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      text-align: center;
+      font-size: 30px;
+      min-width: 350px;
+    }
+
+    .menuIcon {
+      cursor: pointer;
+      font-size: 2.5rem;
+      margin-left: 15px;
+    }
+  }
+  
+  /* Pour les écrans < 320px : on conserve le centrage et on peut ajuster d'autres propriétés si nécessaire */
+  @media (max-width: 320px) {
+    .dropdownMenu {
+      top: 100px;
+      left: 50%;
+      right: auto;
+      transform: translateX(-50%);
+      text-align: center;
+      font-size: 30px;
+      min-width: 260px;
+      /* Ajoutez ici d'autres styles spécifiques pour les très petits écrans, si besoin */
+    }
+
+    .menuIcon {
+      cursor: pointer;
+      font-size: 2.5rem;
+      margin-left: 15px;
+    }
+  }
+  

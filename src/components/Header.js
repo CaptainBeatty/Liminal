@@ -1,8 +1,8 @@
+// Header.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import './Header.css'; // Importation du fichier CSS
+import BurgerMenu from './BurgerMenu';
+import './Header.css';
 
 const Header = ({
   username,
@@ -14,50 +14,27 @@ const Header = ({
   isLoginOpen,
   isRegisterOpen,
 }) => {
-  const navigate = useNavigate(); // Hook pour naviguer entre les pages
+  const navigate = useNavigate();
 
   return (
     <header className="header">
-      <h1 className="title" onClick={() => navigate('/')}>лиминал</h1>
+      <h1 className="title" onClick={() => navigate('/')}>
+        лиминал
+      </h1>
       <div className="rightSection">
-        {username && (
+      {username && (
           <span className="welcomeMessage">Hello {username}</span>
         )}
-        {username ? (
-          <>
-            <button
-              className={`button ${isPhotoFormOpen ? 'photoFormOpen' : ''}`}
-              onClick={onTogglePhotoForm}
-            >
-              {isPhotoFormOpen ? (
-                'Close'
-              ) : (
-                <>
-                  <FontAwesomeIcon icon={faPlus} style={{ marginRight: '5px' }} />
-                  Post
-                </>
-              )}
-            </button>
-            <button className="button" onClick={onLogout}>
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <button
-              className={`button ${isLoginOpen ? 'loginOpen' : ''}`}
-              onClick={onShowLogin}
-            >
-              {isLoginOpen ? 'Close' : 'Login'}
-            </button>
-            <button
-              className={`button ${isRegisterOpen ? 'registerOpen' : ''}`}
-              onClick={onShowRegister}
-            >
-              {isRegisterOpen ? 'Close' : 'Register'}
-            </button>
-          </>
-        )}
+        <BurgerMenu
+          username={username}
+          onLogout={onLogout}
+          onTogglePhotoForm={onTogglePhotoForm}
+          isPhotoFormOpen={isPhotoFormOpen}
+          onShowLogin={onShowLogin}
+          onShowRegister={onShowRegister}
+          isLoginOpen={isLoginOpen}
+          isRegisterOpen={isRegisterOpen}
+        />
       </div>
     </header>
   );

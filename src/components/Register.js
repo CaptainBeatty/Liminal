@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import axiosInstance from '../services/axiosInstance'; // Utilisation de axiosInstance
+import axiosInstance from '../services/axiosInstance';
 
-const Register = () => {
+const Register = ({ onClose }) => {
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
-  const [loading, setLoading] = useState(false); // État pour indiquer le chargement
-  const [errorMessage, setErrorMessage] = useState(''); // Gestion des erreurs
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -15,15 +15,13 @@ const Register = () => {
     setLoading(true);
     setErrorMessage('');
     try {
-      const res = await axiosInstance.post('/auth/register', formData); 
-      alert(res.data.message); // Afficher un message de succès
-      setFormData({ username: '', email: '', password: '' }); // Réinitialiser le formulaire
+      const res = await axiosInstance.post('/auth/register', formData);
+      alert(res.data.message);
+      setFormData({ username: '', email: '', password: '' });
     } catch (err) {
-      // Vérifie si le serveur renvoie un code 400 + un message spécifique
       if (err.response?.status === 400 && err.response?.data?.error === "Ce nom d'utilisateur est déjà pris.") {
         setErrorMessage("Le nom d'utilisateur est déjà utilisé, veuillez en choisir un autre.");
       } else {
-        // Sinon, message d'erreur générique
         console.error(err.response?.data?.error || err.message);
         setErrorMessage(err.response?.data?.error || 'Une erreur est survenue. Veuillez réessayer.');
       }
@@ -32,58 +30,93 @@ const Register = () => {
     }
   };
 
+  // Gérer le clic sur l'overlay pour fermer la modal
+  const handleOverlayClick = () => {
+    if (onClose) onClose();
+  };
 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.title}>Créer un compte</h2>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <input
-          type="text"
-          name="username"
-          placeholder="Nom d'utilisateur"
-          value={formData.username}
-          onChange={handleChange}
-          required
-          style={styles.input}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          style={styles.input}
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Mot de passe"
-          value={formData.password}
-          onChange={handleChange}
-          required
-          minLength="8" 
-          style={styles.input}
-        />
-        {errorMessage && <p style={styles.error}>{errorMessage}</p>}
-        <button type="submit" style={styles.button} disabled={loading}>
-          {loading ? 'Chargement...' : "S'inscrire"}
-        </button>
-      </form>
+    <div style={modalStyles.overlay} onClick={handleOverlayClick}>
+      <div style={modalStyles.modal} onClick={(e) => e.stopPropagation()}>
+        <button onClick={onClose} style={modalStyles.closeButton}>&times;</button>
+        <div style={styles.container}>
+          <h2 style={styles.title}>Create an account</h2>
+          <form onSubmit={handleSubmit} style={styles.form}>
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+              style={styles.input}
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              style={styles.input}
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              minLength="8"
+              style={styles.input}
+            />
+            {errorMessage && <p style={styles.error}>{errorMessage}</p>}
+            <button type="submit" style={styles.button} disabled={loading}>
+              {loading ? 'Chargement...' : "Register"}
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
 
+const modalStyles = {
+  overlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1000,
+  },
+  modal: {
+    backgroundColor: '#fff',
+    padding: '20px 30px',
+    borderRadius: '10px',
+    position: 'relative',
+    maxWidth: '400px',
+    width: '90%',
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+  },
+  closeButton: {
+    position: 'absolute',
+    top: '10px',
+    right: '15px',
+    background: 'none',
+    border: 'none',
+    fontSize: '24px',
+    cursor: 'pointer',
+  },
+};
+
 const styles = {
   container: {
-    backgroundColor: '#f9f9f9',
-    border: '1px solid #ddd',
-    borderRadius: '8px',
-    padding: '20px',
-    maxWidth: '400px',
-    margin: 'auto',
     textAlign: 'center',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
   },
   title: {
     marginBottom: '20px',
@@ -112,9 +145,6 @@ const styles = {
     cursor: 'pointer',
     fontSize: '16px',
     transition: 'background-color 0.3s',
-  },
-  buttonHover: {
-    backgroundColor: '#0056b3',
   },
   error: {
     color: 'red',

@@ -18,12 +18,12 @@ const PhotoForm = ({ onPhotoAdded, onClose }) => {
 
     try {
       if (!title || !date || !image || !location) {
-        setErrorMessage('Veuillez remplir tous les champs obligatoires (titre, image, date).');
+        setErrorMessage('Please fill in all required fields (title, image, date).');
         return;
       }
 
       if (!image.type.startsWith('image/')) {
-        setErrorMessage('Veuillez sélectionner un fichier image valide.');
+        setErrorMessage('Please select a valid image file.');
         return;
       }
 
