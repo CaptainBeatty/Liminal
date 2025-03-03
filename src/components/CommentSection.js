@@ -191,7 +191,7 @@ const CommentSection = ({ photoId, currentUserId, onNewReply, onShowLogin }) => 
                 <textarea
                   value={replyContent}
                   onChange={(e) => setReplyContent(e.target.value)}
-                  placeholder="Votre réponse..."
+                  placeholder="Your answer..."
                   rows="2"
                   style={{
                     width: '100%',
@@ -216,7 +216,7 @@ const CommentSection = ({ photoId, currentUserId, onNewReply, onShowLogin }) => 
       {isLoggedIn ? (
         <div>
           <button onClick={() => setShowNewCommentModal(true)} className="post-button">
-            Ajouter un commentaire
+            Comment
           </button>
           {showNewCommentModal && (
             <Modal onClose={() => setShowNewCommentModal(false)}>
