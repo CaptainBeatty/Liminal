@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../services/axiosInstance'; // Utilisation de axiosInstance
+import axiosInstance from '../services/axiosInstance';
 import dayjs from 'dayjs';
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root');
 
 const PhotoForm = ({ onPhotoAdded, onClose }) => {
   const [title, setTitle] = useState('');
   const [image, setImage] = useState(null);
   const [cameraType, setCameraType] = useState('');
-  const [location, setLocation] = useState(''); // Nouveau champ pour le lieu
+  const [location, setLocation] = useState('');
   const [date, setDate] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
@@ -18,7 +21,7 @@ const PhotoForm = ({ onPhotoAdded, onClose }) => {
 
     try {
       if (!title || !date || !image || !location) {
-        setErrorMessage('Please fill in all required fields (title, image, date).');
+        setErrorMessage('Please fill in all required fields (title, image, date, location).');
         return;
       }
 
@@ -31,23 +34,23 @@ const PhotoForm = ({ onPhotoAdded, onClose }) => {
       formData.append('title', title);
       formData.append('image', image);
       formData.append('cameraType', cameraType);
-      formData.append('location', location); // Ajout du lieu
+      formData.append('location', location);
       formData.append('date', dayjs(date).format('YYYY-MM-DD'));
 
-      const res = await axiosInstance.post('/photos', formData); // Utilisation de axiosInstance
+      const res = await axiosInstance.post('/photos', formData);
 
       if (res.status === 201) {
         setTitle('');
         setImage(null);
         setCameraType('');
-        setLocation(''); // Réinitialiser le lieu
+        setLocation('');
         setDate('');
 
         if (onPhotoAdded) {
           onPhotoAdded(res.data);
         }
 
-        // Fermer le formulaire après l'ajout
+        // Fermer le formulaire et rediriger vers la page d'accueil
         onClose();
         navigate('/');
       }
@@ -57,20 +60,26 @@ const PhotoForm = ({ onPhotoAdded, onClose }) => {
   };
 
   return (
-    <div
+    <Modal
+      isOpen={true}
+      onRequestClose={onClose}
+      contentLabel="Add a liminal"
       style={{
-        position: 'fixed',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        backgroundColor: 'white',
-        borderRadius: '10px',
-        padding: '20px',
-        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-        width: '90%',
-        maxWidth: '400px',
-        zIndex: 1000,
-        fontStyle: 'italic',
+        overlay: {
+          backgroundColor: 'rgba(0, 0, 0, 0.75)',
+          zIndex: 1500,
+        },
+        content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          transform: 'translate(-50%, -50%)',
+          width: '90%',
+          maxWidth: '400px',
+          padding: '20px',
+          borderRadius: '10px',
+        },
       }}
     >
       <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Add a liminal</h2>
@@ -113,7 +122,7 @@ const PhotoForm = ({ onPhotoAdded, onClose }) => {
             id="location"
             placeholder="Place"
             value={location}
-            onChange={(e) => setLocation(e.target.value)} // Modification du lieu
+            onChange={(e) => setLocation(e.target.value)}
             style={styles.input}
             required
           />
@@ -135,7 +144,6 @@ const PhotoForm = ({ onPhotoAdded, onClose }) => {
               ...styles.button,
               backgroundColor: '#28a745',
               marginRight: '10px',
-              fontStyle: 'italic',
             }}
           >
             Add
@@ -146,19 +154,17 @@ const PhotoForm = ({ onPhotoAdded, onClose }) => {
             style={{
               ...styles.button,
               backgroundColor: '#dc3545',
-              fontStyle: 'italic',
             }}
           >
             Cancel
           </button>
         </div>
       </form>
-    </div>
+    </Modal>
   );
 };
 
 const styles = {
-  
   input: {
     width: '100%',
     padding: '8px',

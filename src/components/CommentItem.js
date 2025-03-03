@@ -64,8 +64,8 @@ const CommentItem = ({ comment, currentUserId, onEditComment, onDeleteComment })
       )}
       {menuOpen && (
         <div ref={menuRef} className="comment-style">
-          <button onClick={() => { setIsEditing(true); setMenuOpen(false); }} style={{ display: 'block', padding: '10px', width: '100%' }}>Modifier</button>
-          <button onClick={handleDelete} style={{ display: 'block', padding: '10px', width: '100%' }}>Supprimer</button>
+          <button onClick={() => { setIsEditing(true); setMenuOpen(false); }} style={{ display: 'block', padding: '10px', width: '100%' }}>Modify</button>
+          <button onClick={handleDelete} style={{ display: 'block', padding: '10px', width: '100%' }}>Delete</button>
         </div>
       )}
     </div>

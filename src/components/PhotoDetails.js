@@ -411,102 +411,179 @@ useEffect(() => {
           </div>
 
           {showDeleteConfirmation && (
-            <div
-              className="delete-confirmation"
-              style={{ marginTop: '10px', marginBottom: '10px', textAlign: 'center' }}
-            >
-              <p style={{ fontStyle: 'italic', color: 'red' }}>Are you sure?</p>
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '10px' }}>
-                <button
-                  onClick={handleDelete}
-                  style={{
-                    backgroundColor: '#dc3545',
-                    color: 'white',
-                    border: 'none',
-                    padding: '8px 20px',
-                    cursor: 'pointer',
-                    borderRadius: '5px',
-                    fontStyle: 'italic',
-                  }}
-                >
-                  Yes
-                </button>
-                <button
-                  onClick={handleDeleteIconClick}
-                  style={{
-                    backgroundColor: '#6c757d',
-                    color: 'white',
-                    border: 'none',
-                    padding: '8px 20px',
-                    cursor: 'pointer',
-                    borderRadius: '5px',
-                    fontStyle: 'italic',
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
+            <Modal
+            isOpen={showDeleteConfirmation}
+            onRequestClose={() => setShowDeleteConfirmation(false)}
+            contentLabel="Confirmer la suppression"
+            style={{
+              overlay: {
+                backgroundColor: 'rgba(0, 0, 0, 0.75)',
+                zIndex: 1500,
+              },
+              content: {
+                top: '50%',
+                left: '50%',
+                right: 'auto',
+                bottom: 'auto',
+                transform: 'translate(-50%, -50%)',
+                width: '90%',
+                maxWidth: '400px',
+                padding: '20px',
+                borderRadius: '10px',
+                textAlign: 'center',
+              },
+            }}
+          >
+            <p style={{ fontStyle: 'italic', color: 'red', marginBottom: '20px' }}>
+              Are you sure?
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+              <button
+                onClick={handleDelete}
+                style={{
+                  backgroundColor: '#dc3545',
+                  color: 'white',
+                  border: 'none',
+                  padding: '8px 20px',
+                  cursor: 'pointer',
+                  borderRadius: '5px',
+                  fontStyle: 'italic',
+                }}
+              >
+                Yes
+              </button>
+              <button
+                onClick={() => setShowDeleteConfirmation(false)}
+                style={{
+                  backgroundColor: '#6c757d',
+                  color: 'white',
+                  border: 'none',
+                  padding: '8px 20px',
+                  cursor: 'pointer',
+                  borderRadius: '5px',
+                  fontStyle: 'italic',
+                }}
+              >
+                Cancel
+              </button>
             </div>
+          </Modal>
+          
           )}
 
           {isEditing && (
+            <Modal
+            isOpen={isEditing}
+            onRequestClose={() => setIsEditing(false)}
+            contentLabel="Modifier la photo"
+            style={{
+              overlay: {
+                backgroundColor: 'rgba(0, 0, 0, 0.75)',
+                zIndex: 1500,
+              },
+              content: {
+                top: '50%',
+                left: '50%',
+                right: 'auto',
+                bottom: 'auto',
+                marginRight: '-50%',
+                transform: 'translate(-50%, -50%)',
+                width: '90%',
+                maxWidth: '500px',
+                padding: '20px',
+                borderRadius: '10px',
+              },
+            }}
+          >
             <div>
+              <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Modifier la photo</h2>
               <input
                 type="text"
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
                 placeholder="New title"
-                style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', borderRadius: '5px' }}
+                style={{
+                  display: 'block',
+                  marginBottom: '10px',
+                  padding: '8px',
+                  width: '100%',
+                  borderRadius: '5px',
+                  border: '1px solid #ccc',
+                }}
               />
               <input
                 type="text"
                 value={newCameraType}
                 onChange={(e) => setNewCameraType(e.target.value)}
                 placeholder="System"
-                style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', borderRadius: '5px' }}
+                style={{
+                  display: 'block',
+                  marginBottom: '10px',
+                  padding: '8px',
+                  width: '100%',
+                  borderRadius: '5px',
+                  border: '1px solid #ccc',
+                }}
               />
               <input
                 type="text"
                 value={newLocation}
                 onChange={(e) => setNewLocation(e.target.value)}
                 placeholder="Place"
-                style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', borderRadius: '5px' }}
+                style={{
+                  display: 'block',
+                  marginBottom: '10px',
+                  padding: '8px',
+                  width: '100%',
+                  borderRadius: '5px',
+                  border: '1px solid #ccc',
+                }}
               />
               <input
                 type="date"
                 value={newDate}
                 onChange={(e) => setNewDate(e.target.value)}
-                style={{ display: 'block', marginBottom: '10px', padding: '8px', width: '100%', borderRadius: '5px' }}
+                style={{
+                  display: 'block',
+                  marginBottom: '20px',
+                  padding: '8px',
+                  width: '100%',
+                  borderRadius: '5px',
+                  border: '1px solid #ccc',
+                }}
               />
-              <button
-                onClick={handleUpdate}
-                style={{
-                  backgroundColor: '#28a745',
-                  color: 'white',
-                  border: 'none',
-                  padding: '10px 20px',
-                  marginRight: '10px',
-                  cursor: 'pointer',
-                  borderRadius: '5px',
-                }}
-              >
-                Save
-              </button>
-              <button
-                onClick={() => setIsEditing(false)}
-                style={{
-                  backgroundColor: '#dc3545',
-                  color: 'white',
-                  border: 'none',
-                  padding: '10px 20px',
-                  cursor: 'pointer',
-                  borderRadius: '5px',
-                }}
-              >
-                Cancel
-              </button>
-              
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <button
+                  onClick={handleUpdate}
+                  style={{
+                    backgroundColor: '#28a745',
+                    color: 'white',
+                    border: 'none',
+                    padding: '10px 20px',
+                    marginRight: '10px',
+                    cursor: 'pointer',
+                    borderRadius: '5px',
+                  }}
+                >
+                  Save
+                </button>
+                <button
+                  onClick={() => setIsEditing(false)}
+                  style={{
+                    backgroundColor: '#dc3545',
+                    color: 'white',
+                    border: 'none',
+                    padding: '10px 20px',
+                    cursor: 'pointer',
+                    borderRadius: '5px',
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
+          </Modal>
+          
           )}
         </div>
 
