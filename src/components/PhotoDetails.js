@@ -250,7 +250,7 @@ useEffect(() => {
                   fontSize: '20px',
                   color: 'white',
                   backgroundColor: 'transparent',
-                  borderRadius: '50%',
+                  // borderRadius: '50%',
                   padding: '5px',
                   cursor: 'pointer'
                 }}
@@ -304,12 +304,12 @@ useEffect(() => {
                 onClick={handleDownload}
                 style={{
                   position: 'absolute',
-                  bottom: '10px',
-                  right: '10px',
+                  bottom: '20px',
+                  right: '20px',
                   fontSize: '20px',
                   color: 'white',
                   backgroundColor: 'transparent',
-                  borderRadius: '50%',
+                  // borderRadius: '50%',
                   padding: '5px',
                   cursor: 'pointer'
                 }}
@@ -320,8 +320,8 @@ useEffect(() => {
             onClick={() => setIsModalOpen(false)}
             style={{
               position: 'absolute',
-              top: '10px',
-              right: '10px',
+              top: '30px',
+              right: '30px',
               background: 'rgba(0,0,0,0.5)',
               border: 'none',
               color: 'white',
