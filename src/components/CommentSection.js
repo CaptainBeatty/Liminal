@@ -170,7 +170,7 @@ const CommentSection = ({ photoId, currentUserId, onNewReply, onShowLogin }) => 
   return (
     <div style={{ padding: '10px', marginTop: '10px' }}>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {loading && <p>Chargement des commentaires...</p>}
+      {loading && <p>loading...</p>}
       {!loading && comments.length === 0 && <p>Aucun commentaire.</p>}
       {comments.map((comment) => (
         <div key={comment._id}>

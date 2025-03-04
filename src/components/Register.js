@@ -40,7 +40,7 @@ const Register = ({ onClose }) => {
       <div style={modalStyles.modal} onClick={(e) => e.stopPropagation()}>
         <button onClick={onClose} style={modalStyles.closeButton}>&times;</button>
         <div style={styles.container}>
-          <h2 style={styles.title}>Create an account</h2>
+          <h2 style={styles.title}>Register</h2>
           <form onSubmit={handleSubmit} style={styles.form}>
             <input
               type="text"
@@ -72,7 +72,7 @@ const Register = ({ onClose }) => {
             />
             {errorMessage && <p style={styles.error}>{errorMessage}</p>}
             <button type="submit" style={styles.button} disabled={loading}>
-              {loading ? 'Chargement...' : "Register"}
+              {loading ? 'Loading...' : "Register"}
             </button>
           </form>
         </div>
@@ -109,7 +109,7 @@ const modalStyles = {
     right: '15px',
     background: 'none',
     border: 'none',
-    fontSize: '24px',
+    fontSize: '25px',
     cursor: 'pointer',
   },
 };
