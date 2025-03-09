@@ -171,7 +171,7 @@ const CommentSection = ({ photoId, currentUserId, onNewReply, onShowLogin }) => 
     <div style={{ padding: '10px', marginTop: '10px' }}>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {loading && <p>loading...</p>}
-      {!loading && comments.length === 0 && <p>Aucun commentaire.</p>}
+      {!loading && comments.length === 0 && <p>No comments.</p>}
       {comments.map((comment) => (
         <div key={comment._id}>
           <CommentItem
@@ -224,7 +224,7 @@ const CommentSection = ({ photoId, currentUserId, onNewReply, onShowLogin }) => 
                 <textarea
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
-                  placeholder="Exprimez votre pensée..."
+                  placeholder="Express yourself..."
                   rows="4"
                   style={{
                     width: '100%',
@@ -234,11 +234,8 @@ const CommentSection = ({ photoId, currentUserId, onNewReply, onShowLogin }) => 
                   }}
                 />
                 <div style={{ marginTop: '10px', textAlign: 'right' }}>
-                  <button type="submit" style={{ marginRight: '10px' }}>
+                  <button type="submit" style={{ marginRight: '10px' }} className="post-button">
                     Post
-                  </button>
-                  <button type="button" onClick={() => setShowNewCommentModal(false)}>
-                    Cancel
                   </button>
                 </div>
               </form>

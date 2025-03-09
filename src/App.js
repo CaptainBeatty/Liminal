@@ -20,7 +20,7 @@ import "./App.css"
 
 const App = () => {
   const [photos, setPhotos] = useState([]);
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(localStorage.getItem('username') || '');
   const [currentUserId, setCurrentUserId] = useState(null);
   const [activeModal, setActiveModal] = useState(null); // Contrôle global des modales
   const [showPhotoForm, setShowPhotoForm] = useState(false);

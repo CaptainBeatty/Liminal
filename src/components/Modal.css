@@ -1,0 +1,35 @@
+/* L'overlay couvre tout l'écran avec un fond semi-transparent */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999; /* S'assurer qu'il passe au-dessus du reste */
+  }
+  
+  /* Le contenu du modal est centré, avec un fond blanc */
+  .modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative; /* pour le bouton de fermeture */
+    max-width: 500px;   /* largeur max du modal */
+    width: 90%;         /* pour être responsive */
+  }
+  
+  /* Style du bouton de fermeture */
+  .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+  

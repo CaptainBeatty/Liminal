@@ -1,7 +1,7 @@
 // BurgerMenu.js
 import React, { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faBars } from '@fortawesome/free-solid-svg-icons'; 
 import './BurgerMenu.css'; // Vous pouvez créer ou adapter ce fichier CSS
 
 const BurgerMenu = ({
@@ -11,8 +11,7 @@ const BurgerMenu = ({
   isPhotoFormOpen,
   onShowLogin,
   onShowRegister,
-  isLoginOpen,
-  isRegisterOpen,
+  onShowSettings, // Nouvelle prop pour ouvrir le formulaire Settings
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -69,15 +68,16 @@ const BurgerMenu = ({
                   </>
                 )}
               </div>
-              {/* <div
+              <div
                 className="dropdownItem"
                 onClick={() => {
-                  alert('Settings');
+                  // Ouvre la modale de paramètres
+                  onShowSettings();
                   setMenuOpen(false);
                 }}
               >
                 Settings
-              </div> */}
+              </div>
               <div
                 className="dropdownItem"
                 onClick={() => {
