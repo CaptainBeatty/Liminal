@@ -18,7 +18,7 @@ const SettingsForm = ({ onClose, currentEmail, onDeleteAccount }) => {
     setError('');
     try {
       await axiosInstance.put('/auth/update-email', { email });
-      setSuccess('Email modifié avec succès');
+      setSuccess('Email successfully modified');
     } catch (err) {
       console.error(err);
         if (err.response && err.response.data && err.response.data.error) {
@@ -34,7 +34,7 @@ const SettingsForm = ({ onClose, currentEmail, onDeleteAccount }) => {
      const handleDeleteAccount = async () => {
          // Demander confirmation
          const confirmed = window.confirm(
-           'Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.'
+           'Are you sure you want to delete your account?'
          );
          if (!confirmed) return;
       
@@ -50,7 +50,7 @@ const SettingsForm = ({ onClose, currentEmail, onDeleteAccount }) => {
            localStorage.removeItem('username');
            localStorage.removeItem('email');
 
-           setSuccess('Compte supprimé avec succès');
+           setSuccess('Account deleted successfully');
            navigate('/');
 
            if (onDeleteAccount) {

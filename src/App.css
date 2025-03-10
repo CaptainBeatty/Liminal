@@ -16,7 +16,7 @@ html, body {
 
 /* Section de contenu principale */
 .content {
-  background-image: url('./textured-background.jpg');
+  background-image: url('https://res.cloudinary.com/dw8nqudai/image/upload/v1741614512/textured-background_lkm7jd.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
