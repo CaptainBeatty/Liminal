@@ -16,6 +16,18 @@ import './PhotoDetails.css';
 
 Modal.setAppElement('#root');
 
+function getCloudinaryUrl(baseUrl, { width, quality = 'auto', format = 'auto' } = {}) {
+  const transformations = [];
+  if (width) transformations.push(`w_${width}`);
+  if (quality) transformations.push(`q_${quality}`);
+  if (format) transformations.push(`f_${format}`);
+
+  const transformationString = transformations.join(',');
+
+  return baseUrl?.replace('/upload/', `/upload/${transformationString}/`);
+}
+
+
 const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) => {
   const { id } = useParams();
   const { id: photoId } = useParams(); 
@@ -187,19 +199,22 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
     alert("Une erreur est survenue lors du téléchargement.");
   }
 };
-useEffect(() => {
-  // Déclenche l'effet aléatoirement toutes les 2 secondes (chance de 30%)
-  const interval = setInterval(() => {
-    if (Math.random() < 0.3) {
-      setIsDreaming(true);
-      // Réinitialise l'état après la durée de l'animation (2s)
-      setTimeout(() => setIsDreaming(false), 1000);
-    }
-  }, 2000);
-  return () => clearInterval(interval);
-}, []);
 
-  
+useEffect(() => {
+  if (photo) {
+    // On déclenche l’effet "dream" une seule fois
+    setIsDreaming(true);
+
+    // On retire l'effet après 0.8s (durée de l'animation CSS)
+    const timer = setTimeout(() => {
+      setIsDreaming(false);
+    }, 1000);
+
+    // Cleanup
+    return () => clearTimeout(timer);
+  }
+}, [photo]);
+
 
   return (
     <>
@@ -228,15 +243,16 @@ useEffect(() => {
         <div className='image'>
           <div style={{ marginTop: '15px', fontSize: '16px', fontWeight: 'bold', position: 'relative' }}>
             <img
-              src={photo?.imageUrl}
-              alt={photo?.title}
-              style={{
-                width: '100%',
-                borderRadius: '10px',
-                border: 'solid grey',
-                boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)',
-                cursor: 'pointer' 
-              }}
+               src={getCloudinaryUrl(photo?.imageUrl, { width: 800, quality: 'auto:low' })}
+               alt={photo?.title}
+               loading="lazy"
+               style={{
+                 width: '100%',
+                 borderRadius: '10px',
+                 border: 'solid grey',
+                 boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)',
+                 cursor: 'pointer'
+               }}
                 onClick={() => setIsModalOpen(true)}
                 className={isDreaming ? 'dream-effect' : ''}
           />

@@ -36,16 +36,17 @@ footer {
 
 /* Media queries */
 
-@media (max-width: 425px) {
+/* @media (max-width: 425px) {
 
   .content {
-    background-image: url('https://res.cloudinary.com/dw8nqudai/image/upload/e_improve,w_300,h_600,c_thumb,g_auto/v1741614512/textured-background_lkm7jd.jpg');
+    background-image: url('https://res.cloudinary.com/dw8nqudai/image/upload/c_thumb,w_425,g_face/v1741614512/textured-background_lkm7jd.jpg');
+    
 }
 
 @media (max-width: 320px) {
   .content {
-    background-image: url('https://res.cloudinary.com/dw8nqudai/image/upload/e_improve,w_300,h_600,c_thumb,g_auto/v1741614512/textured-background_lkm7jd.jpg');
+    background-image: url('https://res.cloudinary.com/dw8nqudai/image/upload/c_thumb,w_320,g_face/v1741614512/textured-background_lkm7jd.jpg');
   }
   
 }
-}
+} */
