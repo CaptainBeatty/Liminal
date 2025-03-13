@@ -168,7 +168,7 @@ const CommentSection = ({ photoId, currentUserId, onNewReply, onShowLogin }) => 
   };
 
   return (
-    <div style={{ padding: '10px', marginTop: '10px' }}>
+    <div style={{ padding: '10px', marginTop: '10px', textAlign: 'center' }}>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {loading && <p>loading...</p>}
       {!loading && comments.length === 0 && <p>No comments.</p>}
@@ -189,6 +189,7 @@ const CommentSection = ({ photoId, currentUserId, onNewReply, onShowLogin }) => 
             <Modal onClose={() => setReplyingTo(null)}>
               <form onSubmit={(e) => handleReplyComment(e, comment._id, comment.userId?.username)}>
                 <textarea
+                  className='reply-form'
                   value={replyContent}
                   onChange={(e) => setReplyContent(e.target.value)}
                   placeholder="Your answer..."
@@ -201,10 +202,10 @@ const CommentSection = ({ photoId, currentUserId, onNewReply, onShowLogin }) => 
                   }}
                 />
                 <div style={{ marginTop: '10px', textAlign: 'right' }}>
-                  <button type="submit" style={{ marginRight: '10px' }}>
+                  <button type="submit" className= 'reply-post-button' style={{ marginRight: '10px' }}>
                     Post
                   </button>
-                  <button type="button" onClick={() => setReplyingTo(null)}>
+                  <button type="button" className= 'cancel-reply-button' onClick={() => setReplyingTo(null)}>
                     Cancel
                   </button>
                 </div>

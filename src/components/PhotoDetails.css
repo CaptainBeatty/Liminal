@@ -51,6 +51,14 @@ border: gray 1px solid;
   
 }
 
+.picture-area {
+  margin: 10px auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 600px;
+}
+
 
 /* Masquer le chevron sur les écrans inférieurs à 425px */
 @media (max-width: 425px) {
@@ -61,16 +69,40 @@ border: gray 1px solid;
 
 @keyframes dreamBlur {
   0% {
+    filter: blur(10px);
+  }
+  10% {
+    filter: blur(9px);
+  }
+  20% {
     filter: blur(8px);
   }
-  25% {
+  30% {
+    filter: blur(7px);
+  }
+  40% {
     filter: blur(6px);
   }
   50% {
+    filter: blur(5px);
+  }
+  60% {
+    filter: blur(6px);
+  }
+  70% {
+    filter: blur(5px);
+  }
+  80% {
     filter: blur(4px);
   }
-  75% {
+  85% {
+    filter: blur(3px);
+  }
+  90% {
     filter: blur(2px);
+  }
+  95% {
+    filter: blur(1px);
   }
   100% {
     filter: blur(0px);
@@ -78,5 +110,5 @@ border: gray 1px solid;
 }
 
 .dream-effect {
-  animation: dreamBlur 1s ease-in-out forwards;
+  animation: dreamBlur 0.8s ease-in-out forwards;
 }

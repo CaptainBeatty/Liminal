@@ -1,42 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faSliders, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { faThumbsUp as faThumbsUpRegular, faThumbsDown as faThumbsDownRegular } from '@fortawesome/free-regular-svg-icons';
-import { faThumbsUp as faThumbsUpSolid, faThumbsDown as faThumbsDownSolid } from '@fortawesome/free-solid-svg-icons';
-import { faMessage as faMessageRegular } from '@fortawesome/free-regular-svg-icons'; // <-- si vous souhaitez l'import explicite
-import { faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
+// Importez seulement les icônes utilisées
+import { faChevronLeft, faSliders, faTrash, faArrowUpFromBracket } from '@fortawesome/free-solid-svg-icons';
+import {
+  faThumbsUp as faThumbsUpRegular,
+  faThumbsDown as faThumbsDownRegular,
+  faMessage as faMessageRegular
+} from '@fortawesome/free-regular-svg-icons';
+import {
+  faThumbsUp as faThumbsUpSolid,
+  faThumbsDown as faThumbsDownSolid
+} from '@fortawesome/free-solid-svg-icons';
 
 import axiosInstance from '../services/axiosInstance';
 import dayjs from 'dayjs';
 import Loader from './Loader';
-import CommentSection from './CommentSection';
 import Modal from 'react-modal';
 import './PhotoDetails.css';
+
+// Lazy load du composant de commentaires
+const CommentSectionLazy = React.lazy(() => import('./CommentSection'));
 
 Modal.setAppElement('#root');
 
 function getCloudinaryUrl(baseUrl, { width, quality = 'auto', format = 'auto' } = {}) {
+  if (!baseUrl) return '';
   const transformations = [];
   if (width) transformations.push(`w_${width}`);
   if (quality) transformations.push(`q_${quality}`);
   if (format) transformations.push(`f_${format}`);
 
-  const transformationString = transformations.join(',');
+  const transformationStr = transformations.join(',');
 
-  return baseUrl?.replace('/upload/', `/upload/${transformationString}/`);
+  return baseUrl.replace('/upload/', `/upload/${transformationStr}/`);
 }
 
-
-const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) => {
+const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin }) => {
   const { id } = useParams();
-  const { id: photoId } = useParams(); 
   const navigate = useNavigate();
 
+  // States
   const [photo, setPhoto] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
-  const [isModifying, setIsModifying] = useState(false);
   const [newTitle, setNewTitle] = useState('');
   const [newCameraType, setNewCameraType] = useState('');
   const [newLocation, setNewLocation] = useState('');
@@ -49,16 +56,15 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
   const [showComments, setShowComments] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Effet de flou "dream"
   const [isDreaming, setIsDreaming] = useState(false);
-  
 
-  // --> Ajout d'un state pour le tooltip
+  // Tooltip
   const [showTooltip, setShowTooltip] = useState(false);
 
-  
+  // Récupération des données de la photo
   useEffect(() => {
-    
-    const fetchPhoto = async () => {
+    async function fetchPhoto() {
       try {
         const res = await axiosInstance.get(`/photos/${id}`);
         const photoData = res.data;
@@ -71,10 +77,9 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
         setDislikes(photoData.dislikes || 0);
         setLiked(photoData.likedBy?.includes(currentUserId));
         setDisliked(photoData.dislikedBy?.includes(currentUserId));
-        setNewDate(
-          photoData.date
-            ? dayjs(photoData.date, 'D MMMM YYYY').format('YYYY-MM-DD')
-            : ''
+        setNewDate(photoData.date
+          ? dayjs(photoData.date, 'D MMMM YYYY').format('YYYY-MM-DD')
+          : ''
         );
       } catch (err) {
         console.error('Erreur lors de la récupération de la photo:', err);
@@ -82,11 +87,22 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
       } finally {
         setIsLoading(false);
       }
-    };
-
+    }
     fetchPhoto();
   }, [id, currentUserId]);
 
+  // Effet "dream" une seule fois
+  useEffect(() => {
+    if (photo) {
+      setIsDreaming(true);
+      const timer = setTimeout(() => {
+        setIsDreaming(false);
+      }, 800);
+      return () => clearTimeout(timer);
+    }
+  }, [photo]);
+
+  // Handlers Like / Dislike
   const handleLike = async () => {
     if (!currentUserId) {
       onShowLogin();
@@ -121,13 +137,13 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
     }
   };
 
+  // Handlers Modification / Suppression
   const handleUpdate = async () => {
     try {
       if (!dayjs(newDate, 'YYYY-MM-DD', true).isValid()) {
         alert('Veuillez entrer une date valide (AAAA-MM-JJ).');
         return;
       }
-
       const formData = new FormData();
       formData.append('title', newTitle || photo.title);
       formData.append('cameraType', newCameraType || photo.cameraType);
@@ -151,11 +167,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
     try {
       await axiosInstance.delete(`/photos/${id}`);
       alert('Photo supprimée avec succès.');
-
-      if (onPhotoDeleted) {
-        onPhotoDeleted(id);
-      }
-
+      if (onPhotoDeleted) onPhotoDeleted(id);
       navigate('/');
     } catch (err) {
       console.error('Erreur lors de la suppression de la photo:', err);
@@ -164,70 +176,49 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onClose }) =
   };
 
   const handleModifyClick = () => {
-    setIsModifying(true);
-    setIsEditing((prevIsEditing) => !prevIsEditing);
+    setIsEditing(prev => !prev);
     setShowDeleteConfirmation(false);
-    if (!isEditing) {
-      setTimeout(() => setIsModifying(false), 500);
-    }
   };
 
   const handleDeleteIconClick = () => {
-    setShowDeleteConfirmation((prevShowDeleteConfirmation) => !prevShowDeleteConfirmation);
+    setShowDeleteConfirmation(prev => !prev);
     setIsEditing(false);
   };
 
-  // --> Reste inchangé, sauf qu'on ne liera plus ce toggle à un bouton texte, mais à l'icône
+  // Commentaires
   const handleToggleComments = () => {
-    setShowComments((prev) => !prev);
+    setShowComments(prev => !prev);
   };
 
+  // Téléchargement
   const handleDownload = async () => {
-  try {
-    const response = await fetch(photo?.imageUrl);
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = photo?.title || 'photo';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    window.URL.revokeObjectURL(url);
-  } catch (err) {
-    console.error("Erreur lors du téléchargement", err);
-    alert("Une erreur est survenue lors du téléchargement.");
-  }
-};
-
-useEffect(() => {
-  if (photo) {
-    // On déclenche l’effet "dream" une seule fois
-    setIsDreaming(true);
-
-    // On retire l'effet après 0.8s (durée de l'animation CSS)
-    const timer = setTimeout(() => {
-      setIsDreaming(false);
-    }, 1000);
-
-    // Cleanup
-    return () => clearTimeout(timer);
-  }
-}, [photo]);
-
+    try {
+      const response = await fetch(photo?.imageUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = photo?.title || 'photo';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Erreur lors du téléchargement", err);
+      alert("Une erreur est survenue lors du téléchargement.");
+    }
+  };
 
   return (
     <>
       <Loader isVisible={isLoading} />
-
-      <div
+      <div className='picture-area'
         style={{
-          margin: '10px auto',
-          textAlign: 'center',
-          maxWidth: '600px',
-          display: isLoading ? 'none' : 'block',
+          
+          display: isLoading ? 'none' : 'flex',
         }}
       >
+        {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: '25px' }}>
           <FontAwesomeIcon
             icon={faChevronLeft}
@@ -240,40 +231,52 @@ useEffect(() => {
             {photo?.title}
           </h1>
         </div>
-        <div className='image'>
+
+        {/* Image principale */}
+        <div className="image">
           <div style={{ marginTop: '15px', fontSize: '16px', fontWeight: 'bold', position: 'relative' }}>
             <img
-               src={getCloudinaryUrl(photo?.imageUrl, { width: 800, quality: 'auto:low' })}
-               alt={photo?.title}
-               loading="lazy"
-               style={{
-                 width: '100%',
-                 borderRadius: '10px',
-                 border: 'solid grey',
-                 boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)',
-                 cursor: 'pointer'
-               }}
-                onClick={() => setIsModalOpen(true)}
-                className={isDreaming ? 'dream-effect' : ''}
-          />
-           <FontAwesomeIcon
+              // On sert une image ~600 px de large, format auto, compression auto:low
+              src={getCloudinaryUrl(photo?.imageUrl, {
+                width: 600,
+                quality: 'auto:low',
+                format: 'auto'
+              })}
+              alt={photo?.title}
+              loading="lazy"
+              width="600"        // <-- Largeur intrinsèque
+              height="400"       // <-- Hauteur intrinsèque (ratio 3:2 par ex.)
+              style={{
+                maxWidth: '100%', // S'adapte au conteneur
+                height: 'auto',
+                borderRadius: '10px',
+                border: 'solid grey',
+                boxShadow: '0 0 20px rgba(0, 0, 0, 0.5)',
+                cursor: 'pointer'
+              }}
+              onClick={() => setIsModalOpen(true)}
+              className={isDreaming ? 'dream-effect' : ''}
+            />
+            {/* Icône de téléchargement sur l'image */}
+            <FontAwesomeIcon
               icon={faArrowUpFromBracket}
               onClick={handleDownload}
-                style={{
-                  position: 'absolute',
-                  bottom: '10px',
-                  right: '10px',
-                  fontSize: '20px',
-                  color: 'white',
-                  backgroundColor: 'transparent',
-                  // borderRadius: '50%',
-                  padding: '5px',
-                  cursor: 'pointer'
-                }}
-                  title="Télécharger la photo"
-              />
-        </div>
-          <div 
+              style={{
+                position: 'absolute',
+                bottom: '10px',
+                right: '10px',
+                fontSize: '20px',
+                color: 'white',
+                backgroundColor: 'transparent',
+                padding: '5px',
+                cursor: 'pointer'
+              }}
+              title="Télécharger la photo"
+            />
+          </div>
+
+          {/* Infos sur la photo */}
+          <div
             style={{
               marginTop: '10px',
               fontSize: '14px',
@@ -284,37 +287,46 @@ useEffect(() => {
           >
             <p>
               {`${photo?.location || 'Lieu non spécifié'} on ${
-                photo?.date ? dayjs(photo.date, 'D MMMM YYYY').format('MMMM DD, YYYY') : 'an unknown date'
+                photo?.date
+                  ? dayjs(photo.date, 'D MMMM YYYY').format('MMMM DD, YYYY')
+                  : 'an unknown date'
               } by ${photo?.authorName || 'Auteur inconnu'} with ${photo?.cameraType || 'Non spécifié'}`}
             </p>
           </div>
+
+          {/* Modale : version HD */}
           <Modal
-        isOpen={isModalOpen}
-        onRequestClose={() => setIsModalOpen(false)}
-        contentLabel="Image en haute résolution"
-        style={{
-          overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.75)',
-            zIndex: 1000,
-          },
-          content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-            background: 'none',
-            border: 'none',
-          }
-        }}
-      >
-        <div >
-          <img
-            src={photo?.imageUrl}
-            alt={photo?.title}
-            style={{ maxWidth: '90vw', maxHeight: '90vh', borderRadius: '10px' }}
-          />
+            isOpen={isModalOpen}
+            onRequestClose={() => setIsModalOpen(false)}
+            contentLabel="Image en haute résolution"
+            style={{
+              overlay: {
+                backgroundColor: 'rgba(0, 0, 0, 0.75)',
+                zIndex: 1000,
+              },
+              content: {
+                top: '50%',
+                left: '50%',
+                right: 'auto',
+                bottom: 'auto',
+                marginRight: '-50%',
+                transform: 'translate(-50%, -50%)',
+                background: 'none',
+                border: 'none',
+              }
+            }}
+          >
+            <div>
+              <img
+                // Version plus large pour la modal si souhaité
+                src={getCloudinaryUrl(photo?.imageUrl, {
+                  width: 1200,
+                  quality: 'auto:low',
+                  format: 'auto'
+                })}
+                alt={photo?.title}
+                style={{ maxWidth: '90vw', maxHeight: '90vh', borderRadius: '10px' }}
+              />
               <FontAwesomeIcon
                 icon={faArrowUpFromBracket}
                 onClick={handleDownload}
@@ -325,109 +337,113 @@ useEffect(() => {
                   fontSize: '20px',
                   color: 'white',
                   backgroundColor: 'transparent',
-                  // borderRadius: '50%',
                   padding: '5px',
                   cursor: 'pointer'
                 }}
                 title="Télécharger la photo"
               />
-          {/* Bouton de fermeture */}
-          <button
-            onClick={() => setIsModalOpen(false)}
-            style={{
-              position: 'absolute',
-              top: '30px',
-              right: '30px',
-              background: 'rgba(0,0,0,0.5)',
-              border: 'none',
-              color: 'white',
-              fontStyle: 'italic',
-              padding: '5px 10px',
-              cursor: 'pointer',
-              borderRadius: '5px'
-            }}
-          >
-            Fermer
-          </button>
-        </div>
-      </Modal>
-
-          <div className='button-area'>
-            <div>
+              {/* Bouton de fermeture */}
               <button
-                onClick={handleLike}
+                onClick={() => setIsModalOpen(false)}
                 style={{
-                  backgroundColor: 'transparent',
+                  position: 'absolute',
+                  top: '30px',
+                  right: '30px',
+                  background: 'rgba(0,0,0,0.5)',
                   border: 'none',
+                  color: 'white',
+                  fontStyle: 'italic',
+                  padding: '5px 10px',
                   cursor: 'pointer',
-                  transition: 'transform 0.2s ease',
+                  borderRadius: '5px'
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.2)')}
-                onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
               >
-                <FontAwesomeIcon
-                  icon={liked ? faThumbsUpSolid : faThumbsUpRegular}
-                  style={{ fontSize: '24px', color: liked ? 'black' : '#000' }}
-                />
-                <span style={{ marginLeft: '1px' }}>{likes}</span>
-              </button>
-              <button
-                onClick={handleDislike}
-                style={{
-                  backgroundColor: 'transparent',
-                  border: 'none',
-                  cursor: 'pointer',
-                  transition: 'transform 0.2s ease',
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.2)')}
-                onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-              >
-                <FontAwesomeIcon
-                  icon={disliked ? faThumbsDownSolid : faThumbsDownRegular}
-                  style={{ fontSize: '24px', color: disliked ? 'black' : '#000' }}
-                />
-                <span style={{ marginLeft: '1px' }}>{dislikes}</span>
+                Fermer
               </button>
             </div>
+          </Modal>
+        </div>
 
-            {currentUserId === photo?.userId && (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  width: '65px',
-                }}
-              >
-                <>
-                  <FontAwesomeIcon
-                    icon={isModifying ? faSliders : faSliders}
-                    style={{
-                      fontSize: '24px',
-                      cursor: 'pointer',
-                      transition: 'transform 0.2s ease',
-                    }}
-                    onClick={handleModifyClick}
-                    onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.2)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-                  />
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    style={{
-                      fontSize: '24px',
-                      cursor: 'pointer',
-                      transition: 'transform 0.2s ease',
-                    }}
-                    onClick={handleDeleteIconClick}
-                    onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.2)')}
-                    onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
-                  />
-                </>
-              </div>
-            )}
+        {/* Zone "Like" / "Dislike" + Modif / Delete */}
+        <div className="button-area">
+          <div>
+            {/* Like */}
+            <button
+              onClick={handleLike}
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'transform 0.2s ease',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.2)')}
+              onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+            >
+              <FontAwesomeIcon
+                icon={liked ? faThumbsUpSolid : faThumbsUpRegular}
+                style={{ fontSize: '24px', color: liked ? 'black' : '#000' }}
+              />
+              <span style={{ marginLeft: '1px' }}>{likes}</span>
+            </button>
+
+            {/* Dislike */}
+            <button
+              onClick={handleDislike}
+              style={{
+                backgroundColor: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'transform 0.2s ease',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.2)')}
+              onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+            >
+              <FontAwesomeIcon
+                icon={disliked ? faThumbsDownSolid : faThumbsDownRegular}
+                style={{ fontSize: '24px', color: disliked ? 'black' : '#000' }}
+              />
+              <span style={{ marginLeft: '1px' }}>{dislikes}</span>
+            </button>
           </div>
 
-          {showDeleteConfirmation && (
-            <Modal
+          {/* Modif / Delete si propriétaire */}
+          {currentUserId === photo?.userId && (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                width: '65px',
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faSliders}
+                style={{
+                  fontSize: '24px',
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s ease',
+                }}
+                onClick={handleModifyClick}
+                onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.2)')}
+                onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+              />
+              <FontAwesomeIcon
+                icon={faTrash}
+                style={{
+                  fontSize: '24px',
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s ease',
+                }}
+                onClick={handleDeleteIconClick}
+                onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.2)')}
+                onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Confirmation Suppression */}
+        {showDeleteConfirmation && (
+          <Modal
             isOpen={showDeleteConfirmation}
             onRequestClose={() => setShowDeleteConfirmation(false)}
             contentLabel="Confirmer la suppression"
@@ -484,11 +500,11 @@ useEffect(() => {
               </button>
             </div>
           </Modal>
-          
-          )}
+        )}
 
-          {isEditing && (
-            <Modal
+        {/* Edition Photo */}
+        {isEditing && (
+          <Modal
             isOpen={isEditing}
             onRequestClose={() => setIsEditing(false)}
             contentLabel="Modifier la photo"
@@ -502,7 +518,6 @@ useEffect(() => {
                 left: '50%',
                 right: 'auto',
                 bottom: 'auto',
-                marginRight: '-50%',
                 transform: 'translate(-50%, -50%)',
                 width: '90%',
                 maxWidth: '500px',
@@ -516,7 +531,7 @@ useEffect(() => {
               <input
                 type="text"
                 value={newTitle}
-                onChange={(e) => setNewTitle(e.target.value)}
+                onChange={e => setNewTitle(e.target.value)}
                 placeholder="New title"
                 style={{
                   display: 'block',
@@ -530,7 +545,7 @@ useEffect(() => {
               <input
                 type="text"
                 value={newCameraType}
-                onChange={(e) => setNewCameraType(e.target.value)}
+                onChange={e => setNewCameraType(e.target.value)}
                 placeholder="System"
                 style={{
                   display: 'block',
@@ -544,7 +559,7 @@ useEffect(() => {
               <input
                 type="text"
                 value={newLocation}
-                onChange={(e) => setNewLocation(e.target.value)}
+                onChange={e => setNewLocation(e.target.value)}
                 placeholder="Place"
                 style={{
                   display: 'block',
@@ -558,7 +573,7 @@ useEffect(() => {
               <input
                 type="date"
                 value={newDate}
-                onChange={(e) => setNewDate(e.target.value)}
+                onChange={e => setNewDate(e.target.value)}
                 style={{
                   display: 'block',
                   marginBottom: '20px',
@@ -599,11 +614,9 @@ useEffect(() => {
               </div>
             </div>
           </Modal>
-          
-          )}
-        </div>
+        )}
 
-        {/* Remplacement du bouton par l'icône avec tooltip */}
+        {/* Icône d'accès aux commentaires + tooltip */}
         <div
           onClick={handleToggleComments}
           onMouseEnter={() => setShowTooltip(true)}
@@ -635,18 +648,20 @@ useEffect(() => {
                 fontSize: '13px',
               }}
             >
-              Déja vu?
+              Déjà vu?
             </div>
           )}
         </div>
 
-        {/* Affichage conditionnel de la section des commentaires */}
+        {/* Section des commentaires en lazy-load */}
         {showComments && (
-          <CommentSection
-            photoId={photoId}
-            currentUserId={currentUserId}
-            onShowLogin={onShowLogin}  // Ajout de la prop pour déclencher le formulaire de login
-          />
+          <Suspense fallback={<div>Chargement des commentaires...</div>}>
+            <CommentSectionLazy
+              photoId={id}
+              currentUserId={currentUserId}
+              onShowLogin={onShowLogin}
+            />
+          </Suspense>
         )}
       </div>
     </>
