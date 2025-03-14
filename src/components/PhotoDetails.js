@@ -302,13 +302,14 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin }) => {
             style={{
               overlay: {
                 backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                zIndex: 1000,
+                zIndex: 1500,
               },
               content: {
                 top: '50%',
                 left: '50%',
                 right: 'auto',
                 bottom: 'auto',
+                overflow: 'hidden',
                 marginRight: '-50%',
                 transform: 'translate(-50%, -50%)',
                 background: 'none',
@@ -316,7 +317,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin }) => {
               }
             }}
           >
-            <div>
+            <div style={{ position: 'relative', display: 'inline-block' }}>
               <img
                 // Version plus large pour la modal si souhaité
                 src={getCloudinaryUrl(photo?.imageUrl, {
