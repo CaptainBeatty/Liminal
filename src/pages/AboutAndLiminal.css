@@ -25,7 +25,8 @@
 
 /* Espacement entre les sections */
 .about-section,
-.liminal-section {
+.liminal-section,
+.story {
     margin-bottom: 40px;
     padding: 20px;
     background: #f9f9f9; /* Fond léger pour distinguer les sections */

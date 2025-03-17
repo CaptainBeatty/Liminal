@@ -10,11 +10,6 @@ const Footer = () => {
         <footer className="footer">
             <div className="footer-section">
                 <Link to="./about-liminal" className="footer-link">
-                    What is a liminal image?
-                </Link>
-            </div>
-            <div className="footer-section">
-                <Link to="./about-liminal" className="footer-link">
                     About Liminal
                 </Link>
             </div>

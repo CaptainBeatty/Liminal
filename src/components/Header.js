@@ -48,7 +48,7 @@ const Header = ({
   return (
     <header className="header">
       <h1 className="title" onClick={() => navigate('/')}>
-        лиминал
+        Liminal
       </h1>
       <div className="rightSection">
       {username && (
