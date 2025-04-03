@@ -172,6 +172,7 @@ const App = () => {
                   onPhotoDeleted={fetchPhotos}
                   onShowLogin={() => setActiveModal('login')} // Ajout de onShowLogin
                   isLoginOpen={activeModal === 'login'} // Passe l'état isLoginOpen
+                  onPhotoUpdated={fetchPhotos}
                 />
                 {showPhotoForm && username && (
                   <PhotoForm

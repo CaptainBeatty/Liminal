@@ -36,7 +36,7 @@ function getCloudinaryUrl(baseUrl, { width, quality = 'auto', format = 'auto' } 
   return baseUrl.replace('/upload/', `/upload/${transformationStr}/`);
 }
 
-const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin }) => {
+const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onPhotoUpdated }) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -155,6 +155,11 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin }) => {
 
       const updatedPhoto = await axiosInstance.get(`/photos/${id}`);
       setPhoto(updatedPhoto.data);
+      
+      // Ici on prévient le parent (App) pour qu'il refresh la liste => PhotoList à jour
+      if (onPhotoUpdated) {
+        onPhotoUpdated();  
+      }
 
       setIsEditing(false);
     } catch (err) {
