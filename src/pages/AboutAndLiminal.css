@@ -2,7 +2,7 @@
 .about-liminal-container {
     padding: 20px;
     max-width: 800px;
-    margin: 0 auto; /* Centrage horizontal */
+    margin: 50px auto; /* Centrage horizontal */
     font-family: Arial, sans-serif;
     color: #333; /* Couleur de texte par défaut */
     line-height: 1.6;
@@ -101,6 +101,15 @@
 
 
 /* Responsiveness */
+
+@media (max-width: 425px) {
+
+    .about-liminal-container {
+        margin: 150px auto; /* Centrage horizontal */
+    }
+
+}
+
 @media (max-width: 600px) {
     .about-liminal-container {
         padding: 10px;
