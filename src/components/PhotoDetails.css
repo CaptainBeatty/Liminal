@@ -52,7 +52,8 @@ border: gray 1px solid;
 }
 
 .picture-area {
-  margin: 10px auto;
+  
+  margin: 75px auto;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -80,6 +81,11 @@ border: gray 1px solid;
 
 /* Masquer le chevron sur les écrans inférieurs à 425px */
 @media (max-width: 425px) {
+
+  .picture-area {
+    margin: 150px auto;
+  }
+
   .chevron-icon {
     display: none;
   }

@@ -11,6 +11,20 @@
   font-style: italic;
   border-bottom: solid grey;
   z-index: 10;
+  /* Ajout de la position fixe et de la transition */
+  position: fixed;
+  top: 0;
+  width: 100%;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Classe pour cacher le header */
+.header--hidden {
+  transform: translateY(-100%);
+}
+
+.header--visible {
+  transform: translateY(0);
 }
 
 .title {
