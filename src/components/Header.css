@@ -90,13 +90,14 @@
   .header {
     flex-direction: column;
     justify-content: center;
+    padding: 3px 20px;
   }
 
   .rightSection {
     flex-direction: column;
     align-items: center;
     width: 175px;
-    margin-top: 15px;
+    margin-top: 5px;
   }
 
   .welcomeMessage {

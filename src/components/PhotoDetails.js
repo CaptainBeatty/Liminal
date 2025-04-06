@@ -224,7 +224,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onPhotoUpdat
         }}
       >
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '25px' }}>
+        <div className='title-area'>
           <FontAwesomeIcon
             icon={faChevronLeft}
             onClick={() => navigate(-1)}

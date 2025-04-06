@@ -60,6 +60,11 @@ border: gray 1px solid;
   max-width: 600px;
 }
 
+.title-area {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
 /* Fade-in sur la modal */
 .ReactModal__Content {
   opacity: 0;
@@ -81,9 +86,12 @@ border: gray 1px solid;
 
 /* Masquer le chevron sur les écrans inférieurs à 425px */
 @media (max-width: 425px) {
-
-  .picture-area {
+  .picture-area{
     margin: 150px auto;
+  }
+
+  .title-area {
+    margin-bottom: 5px;
   }
 
   .chevron-icon {
