@@ -23,7 +23,7 @@ const PhotoList = ({ photos, isLoading }) => {
       {/* Affichage du Loader avec l'effet de fondu */}
       <Loader isVisible={isLoading} />
 
-      <div style={{ ...styles.gridContainer, display: isLoading ? 'none' : 'grid' }}>
+      <div className= "grid" style={{ ...styles.gridContainer, display: isLoading ? 'none' : 'grid' }}>
         {photos.map((photo) => (
           <div 
             key={photo._id} 

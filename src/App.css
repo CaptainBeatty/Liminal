@@ -11,7 +11,7 @@ html, body {
 .app-container {
   display: flex;
   flex-direction: column;
-  min-height: 50vh; /* Assure que l'application occupe toute la hauteur */
+  min-height: 100vh; /* Assure que l'application occupe toute la hauteur */
 }
 
 /* Section de contenu principale */
@@ -23,7 +23,6 @@ html, body {
   flex: 1; /* Permet au contenu de s'étendre pour occuper l'espace disponible */
   padding: 20px; /* Ajoute un peu d'espace autour du contenu */
 }
-
 /* Footer */
 footer {
   background-color: #222;
@@ -40,7 +39,7 @@ footer {
   .app-container {
     display: flex;
     flex-direction: column;
-    min-height: 90vh; /* Assure que l'application occupe toute la hauteur */
+    min-height: 100vh; /* Assure que l'application occupe toute la hauteur */
   }
     
 }

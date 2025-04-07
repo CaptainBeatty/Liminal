@@ -215,7 +215,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onPhotoUpdat
   };
 
   return (
-    <>
+    <div className='test'>
       <Loader isVisible={isLoading} />
       <div className='picture-area'
         style={{
@@ -670,7 +670,7 @@ const PhotoDetails = ({ currentUserId, onPhotoDeleted, onShowLogin, onPhotoUpdat
           </Suspense>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
